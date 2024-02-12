@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DepositRepository extends CrudRepository<DepositEntity, Long> {
+    DepositEntity findByReference(String reference);
 }

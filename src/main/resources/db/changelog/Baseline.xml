@@ -37,4 +37,46 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="createLockTable" author="milpes" failOnError="true">
+        <createTable tableName="DEPOSIT_TABLE_LOCK">
+            <column name="LOCK_KEY" type="VARCHAR2(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REGION" type="VARCHAR2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR2(64)"/>
+            <column name="CREATED_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="DEPOSIT_REQUEST_TABLE_LOCK" columnNames="LOCK_KEY,REGION"/>
+    </changeSet>
+    <changeSet id="PBS-659-3" author="cemhun">
+
+        <createTable tableName="STATE_TRANSITION">
+
+            <column name="UUID" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>
+            </column>
+            <column name="DEPOSIT_REF" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FROM_STATE" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EVENT" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TO_STATE" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="SYSTIMESTAMP" name="CREATED" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

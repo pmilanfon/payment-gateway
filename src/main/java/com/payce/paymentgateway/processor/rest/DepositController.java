@@ -1,6 +1,6 @@
 package com.payce.paymentgateway.processor.rest;
 
-import com.payce.paymentgateway.processor.service.PaymentService;
+import com.payce.paymentgateway.processor.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/payments/deposit")
 @RequiredArgsConstructor
-public class PaymentController {
-    private final PaymentService paymentService;
+public class DepositController {
+    private final DepositService depositService;
 
     @PostMapping("/process")
     public ResponseEntity<String> processPayment(@RequestBody DepositSubmitRequest depositSubmitRequest) {
-        paymentService.process(depositSubmitRequest);
-        return new ResponseEntity<>("Payment processed successfully", HttpStatus.OK);
+        depositService.process(depositSubmitRequest);
+        return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
     }
 }

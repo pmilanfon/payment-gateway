@@ -1,8 +1,8 @@
 package com.payce.paymentgateway.processor.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.payce.paymentgateway.common.entity.DepositEntity;
 import lombok.Builder;
+import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
@@ -11,6 +11,7 @@ import java.util.Currency;
 @Jacksonized
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class DepositSubmitRequest {
     private final String cardNumber;
     private final String cardHolderName;
@@ -20,4 +21,6 @@ public class DepositSubmitRequest {
     private final BigDecimal amount;
     private final Currency currency;
     private final String merchantId;
+    private final String reference;
+
 }
