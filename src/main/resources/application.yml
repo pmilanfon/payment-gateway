@@ -2,3 +2,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog-master.xml
 
+acquirer:
+  base-url: "http://localhost:9090"
+
