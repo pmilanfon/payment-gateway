@@ -1,6 +1,10 @@
 package com.payce.paymentgateway.processor.statemachine.state;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 public enum State {
     INITIATE(false),
     VALIDATE(false),
@@ -10,13 +14,10 @@ public enum State {
     PENDING_TRANSACTION_ACCEPTANCE(false),
     PENDING_TRANSACTION_RESPONSE_DELAYED(false),
     PENDING_DEPOSIT_COMPLETED(false),
+    HANDLE_FAILURE(false),
     DEPOSIT_SUCCESSFUL(true),
-    FAILED(true);
+    FAILED(true),
+    FORCE_FAILED(true);
 
-    public final boolean isFinal;
-
-    State(boolean isFinal) {
-        this.isFinal = isFinal;
-    }
-
+    public final boolean finalState;
 }

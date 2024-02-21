@@ -1,8 +1,11 @@
 package com.payce.paymentgateway.processor.statemachine.configuration;
 
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Data
 public class RetryOrFailProperties {
     protected boolean retryOrFailEnabled;
 

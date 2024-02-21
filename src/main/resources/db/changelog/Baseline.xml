@@ -29,7 +29,7 @@
             <column name="amount" type="DECIMAL">
                 <constraints nullable="false"/>
             </column>
-            <column name="deposit_date" type="DATE">
+            <column name="created" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
             <column name="merchant_id" type="VARCHAR(255)">

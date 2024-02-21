@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Data
 @Table(name = "STATE_TRANSITION")
@@ -28,5 +28,5 @@ public class StateTransitionEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false, updatable = false)
-    private Date created;
+    private Instant created;
 }

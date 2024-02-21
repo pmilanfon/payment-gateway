@@ -9,19 +9,19 @@ import com.payce.paymentgateway.processor.statemachine.event.GenericEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ValidateState extends BaseState {
+public class HandleFailureState extends BaseState {
 
-    public ValidateState(State stateEnum, DepositStorageService depositStorageService) {
+    public HandleFailureState(State stateEnum, DepositStorageService depositStorageService) {
         super(stateEnum, depositStorageService);
     }
 
     @Override
     public Event execute(String reference) {
         try {
-            log.info("Validate");
+            log.info("HandleFailure");
             return new GenericEvent(StateMachineEvent.VALIDATION_SUCCESS_EVENT, reference);
         } catch (Exception e) {
-            log.error("From VALIDATE, Caught Exception={}", e.getMessage());
+            log.error("From HandleFailure, Caught Exception={}", e.getMessage());
             return new FailedEvent(reference,
                     new ErrorMessage("errorkey1", "errorkey2"));
         }

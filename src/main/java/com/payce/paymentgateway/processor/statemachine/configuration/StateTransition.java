@@ -5,5 +5,5 @@ import com.payce.paymentgateway.processor.statemachine.state.StateMachineEvent;
 import lombok.Builder;
 
 @Builder
-public record StateTransition(BaseState from, StateMachineEvent eventType, BaseState to) {
+public record StateTransition(BaseState from, StateMachineEvent event, BaseState to) {
 }

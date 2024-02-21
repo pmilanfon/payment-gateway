@@ -12,8 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateOrderState extends BaseState {
 
-    public CreateOrderState(State stateEnum, DepositRepository depositRepository) {
-        super(stateEnum, depositRepository);
+    public CreateOrderState(DepositRepository depositRepository) {
+        super(State.CREATE_ORDER, null);
     }
 
 

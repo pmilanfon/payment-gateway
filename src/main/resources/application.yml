@@ -2,6 +2,42 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog-master.xml
 
+state-configuration:
+  transitions:
+    - event: INITIATION_SUCCESS_EVENT
+      from: INITIATE
+      to: VALIDATE
+    - event: VALIDATION_SUCCESS_EVENT
+      from: VALIDATE
+      to: CREATE_ORDER
+    - event: ORDER_CREATED_EVENT
+      from: CREATE_ORDER
+      to: POLL_STATUS
+    - event: STATUS_OK_EVENT
+      from: POLL_STATUS
+      to: APPLY_DEPOSIT
+    - event: APPLY_DEPOSIT_OK_EVENT
+      from: APPLY_DEPOSIT
+      to: WAIT_SUCCESS
+    - event: DEPOSIT_FINALIZED
+      from: WAIT_SUCCESS
+      to: DEPOSIT_SUCCESSFUL
+    - event: FAIL_EVENT
+      from: VALIDATE
+      to: HANDLE_FAILURE
+    - event: FAIL_EVENT
+      from: CREATE_ORDER
+      to: HANDLE_FAILURE
+    - event: FAIL_EVENT
+      from: POLL_STATUS
+      to: HANDLE_FAILURE
+    - event: FAIL_EVENT
+      from: APPLY_DEPOSIT
+      to: HANDLE_FAILURE
+    - event: DEPOSIT_FAILED_EVENT
+      from: HANDLE_FAILURE
+      to: FAILED
+
 acquirer:
   base-url: "http://localhost:9090"
 
