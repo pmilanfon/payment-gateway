@@ -20,10 +20,10 @@ public class DepositController {
         return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<String> processPayment(@PathVariable String id) {
         log.info("Getting tx {}", id);
-        depositService.get(id);
+        depositService.(id);
         return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
-    }
+    }*/
 }

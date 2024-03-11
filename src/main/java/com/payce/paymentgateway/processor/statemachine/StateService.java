@@ -48,29 +48,28 @@ public class StateService {
         Instant now = Instant.now();
 
         DepositEntity depositEntity =
-                depositRequestRepository.findByReference(reference);
-
-        // update current state
-        depositEntity.setStateUpdate(now);
-        depositEntity.setLatestRetry(now);
-        depositEntity.setUpdated(now);
-        depositEntity.setCurrentState(stateTransition.to().getStateType());
+                depositRequestRepository.findByReference(reference)
+                        .setStateUpdate(now)
+                        .setLatestRetry(now)
+                        .setUpdated(now)
+                        .setCurrentState(stateTransition.to().getStateType());
 
         if (errorMessage != null) {
-            depositEntity.setCustomerMessageKey(errorMessage.getCustomerMessageKey());
-            depositEntity.setInternalMessageKey(errorMessage.getInternalMessageKey());
+            depositEntity
+                    .setCustomerMessageKey(errorMessage.getCustomerMessageKey())
+                    .setInternalMessageKey(errorMessage.getInternalMessageKey());
         }
 
         depositRequestRepository.save(depositEntity);
 
         // save state transition to database
-        StateTransitionEntity stateTransitionEntity = new StateTransitionEntity();
-        stateTransitionEntity.setDepositRequest(depositEntity);
-        stateTransitionEntity.setFromState(
-                stateTransition.from().getStateType().name());
-        stateTransitionEntity.setEvent(stateTransition.event().name());
-        stateTransitionEntity.setToState(stateTransition.to().getStateType().name());
-        stateTransitionEntity.setCreated(now);
+        StateTransitionEntity stateTransitionEntity = new StateTransitionEntity()
+                .setDepositRequest(depositEntity)
+                .setFromState(stateTransition.from().getStateType().name())
+                .setEvent(stateTransition.event().name())
+                .setToState(stateTransition.to().getStateType().name())
+                .setCreated(now);
+
         stateTransitionRepository.save(stateTransitionEntity);
     }
 }
