@@ -7,12 +7,14 @@ import com.payce.paymentgateway.processor.statemachine.event.Event;
 import com.payce.paymentgateway.processor.statemachine.event.FailedEvent;
 import com.payce.paymentgateway.processor.statemachine.event.GenericEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
 public class HandleFailureState extends BaseState {
 
-    public HandleFailureState(State stateEnum, DepositStorageService depositStorageService) {
-        super(stateEnum, depositStorageService);
+    public HandleFailureState(DepositStorageService depositStorageService) {
+        super(depositStorageService);
     }
 
     @Override
@@ -25,5 +27,10 @@ public class HandleFailureState extends BaseState {
             return new FailedEvent(reference,
                     new ErrorMessage("errorkey1", "errorkey2"));
         }
+    }
+
+    @Override
+    public State getStateType() {
+        return State.HANDLE_FAILURE;
     }
 }

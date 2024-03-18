@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +21,11 @@ import static java.util.Optional.ofNullable;
 
 @Slf4j
 @AllArgsConstructor
+@Service
 public class DepositStorageService {
 
     private final DepositRepository depositRepository;
 
-//    @Timed(DATABASE_CALLS)
     @Timed
     public DepositDto getRequest(String reference) {
         return ofNullable(depositRepository.findByReference(reference))

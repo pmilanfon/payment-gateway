@@ -10,6 +10,7 @@ import java.time.Instant;
 @Data
 @Table(name = "STATE_TRANSITION")
 @Accessors(chain = true)
+@Entity
 public class StateTransitionEntity {
     @Id
     @UuidGenerator

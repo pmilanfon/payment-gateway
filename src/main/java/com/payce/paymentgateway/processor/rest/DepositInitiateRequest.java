@@ -2,11 +2,13 @@ package com.payce.paymentgateway.processor.rest;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class DepositInitiateRequest {
 	private String merchantId;
 	private String product;
-	private double amount;
+	private BigDecimal amount;
 	private String currencyCode;
 	private String merchantTxRef;
 	private String orderDescription;

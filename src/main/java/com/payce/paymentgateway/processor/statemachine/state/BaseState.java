@@ -4,14 +4,11 @@ import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.common.service.DepositStorageService;
 import com.payce.paymentgateway.processor.statemachine.event.Event;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.util.Assert;
 
 @AllArgsConstructor
-@Getter
 public abstract class BaseState {
-    private final State stateType;
-    private final DepositStorageService depositStorageService;
+    protected final DepositStorageService depositStorageService;
 
     public abstract Event execute(String reference);
 
@@ -22,9 +19,12 @@ public abstract class BaseState {
     }
 
     public boolean isFinal() {
-        return stateType.finalState;
+        return getStateType().finalState;
     }
+
     public String toString() {
-        return stateType.toString();
+        return getStateType().toString();
     }
+
+    public abstract State getStateType();
 }

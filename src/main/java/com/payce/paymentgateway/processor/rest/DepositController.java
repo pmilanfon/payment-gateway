@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class DepositController {
     private final DepositService depositService;
 
+    @PostMapping("/initiate")
+    public ResponseEntity<String> initiate(@RequestBody DepositInitiateRequest initiateRequest) {
+        depositService.initiate(initiateRequest);
+        return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
+    }
+
     @PostMapping("/process")
     public ResponseEntity<String> processPayment(@RequestBody DepositSubmitRequest depositSubmitRequest) {
         depositService.process(depositSubmitRequest);

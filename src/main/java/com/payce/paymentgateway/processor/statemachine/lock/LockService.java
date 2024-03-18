@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.integration.jdbc.lock.JdbcLockRegistry;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.locks.Lock;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 @Slf4j
 @AllArgsConstructor
+@Service
 public class LockService {
     private final JdbcLockRegistry lockRegistry;
 

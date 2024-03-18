@@ -4,6 +4,7 @@ import com.payce.paymentgateway.processor.statemachine.event.Event;
 import com.payce.paymentgateway.processor.statemachine.state.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 
 import static com.payce.paymentgateway.processor.statemachine.state.StateMachineEvent.*;
 
-
+@Configuration
 public class StateConfiguration {
 
     private final Logger logger = LoggerFactory.getLogger(StateConfiguration.class);
