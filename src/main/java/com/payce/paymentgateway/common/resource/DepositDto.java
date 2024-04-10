@@ -1,7 +1,14 @@
 package com.payce.paymentgateway.common.resource;
 
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@ToString
 public class DepositDto {
     private String cardNumber;
     private String cardHolderName;
@@ -10,7 +17,7 @@ public class DepositDto {
     private String cvv;
     private String currency;
     private double amount;
-    private LocalDate depositDate;
+    private LocalDateTime depositDate;
     private String merchantId;
     private String reference;
 }

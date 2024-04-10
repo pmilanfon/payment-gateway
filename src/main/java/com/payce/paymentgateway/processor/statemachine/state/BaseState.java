@@ -4,7 +4,6 @@ import com.payce.paymentgateway.common.repo.DepositRepository;
 import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.processor.statemachine.event.Event;
 import lombok.AllArgsConstructor;
-import org.springframework.util.Assert;
 
 @AllArgsConstructor
 public abstract class BaseState {
@@ -14,9 +13,9 @@ public abstract class BaseState {
     public abstract Event execute(String reference);
 
     protected final DepositDto getDepositRequest(String reference) {
-        final DepositDto depositRequest = depositRepository.findByReference(reference).toDto();
-        Assert.notNull(depositRequest, "deposit request must exist. Ref: " + reference);
-        return depositRequest;
+//        final DepositDto depositRequest = depositRepository.findByReference(reference).toDto();
+//        Assert.notNull(depositRequest, "deposit request must exist. Ref: " + reference);
+        return null;
     }
 
     public boolean isFinal() {

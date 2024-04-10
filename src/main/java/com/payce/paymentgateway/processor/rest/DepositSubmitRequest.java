@@ -10,8 +10,9 @@ import lombok.extern.jackson.Jacksonized;
 public class DepositSubmitRequest {
     private final String cardNumber;
     private final String cardHolderName;
-    private final String cardExpiry;
-    private final String cardCvv;
+    private final int expirationMonth;
+    private final int expirationYear;
+    private final String cvv;
     private final String amount;
     private final String currency;
     private final String merchantId;

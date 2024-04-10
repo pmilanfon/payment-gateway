@@ -7,7 +7,7 @@ public class DepositInitiateRequest {
 	private String merchantId;
 	private String product;
 	private double amount;
-	private String currencyCode;
+	private String currency;
 	private String merchantTxRef;
 	private String orderDescription;
 	private String billingAddress;
@@ -24,4 +24,5 @@ public class DepositInitiateRequest {
 	private String dateOfBirth;
 	private String firstName;
 	private String lastName;
+
 }
