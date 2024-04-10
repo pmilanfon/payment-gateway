@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  postgres:
+    image: postgres:13.1
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: sa
+      POSTGRES_USER: sa
+      POSTGRES_DB: integration-tests-db
+  wiremock:
+    image: "wiremock/wiremock:latest"
+    ports:
+      - "9090:8080"
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings
+    command: >
+      --port 8080
+      --verbose
+      --no-request-journal
+      --global-response-templating

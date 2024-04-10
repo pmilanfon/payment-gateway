@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.payce.paymentgateway.common.resource.DepositDto;
+import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
 import com.payce.paymentgateway.processor.statemachine.state.State;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -51,6 +52,7 @@ public class DepositEntity {
     private String customerMessageKey;
 
     //todo temporary, try mapstruct?
+
     public DepositDto toDto() {
         try {
             String s = OBJECT_MAPPER.writeValueAsString(this);
@@ -61,6 +63,14 @@ public class DepositEntity {
     }
 
     //todo temporary, try mapstruct?
+    public static DepositEntity fromDto(DepositInitiateRequest initiateRequest) {
+        try {
+            String s = OBJECT_MAPPER.writeValueAsString(initiateRequest);
+            return OBJECT_MAPPER.readValue(s, DepositEntity.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static DepositEntity fromDto(DepositDto depositDto) {
         try {
             String s = OBJECT_MAPPER.writeValueAsString(depositDto);

@@ -26,4 +26,6 @@ public class DepositInitiateRequest {
 	private String dateOfBirth;
 	private String firstName;
 	private String lastName;
+	private String callbackUrl;
+	private String redirectUrl;
 }

@@ -7,7 +7,7 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @Builder
 @Data
-public class DepositSubmitRequest {
+public class CardDetailsSubmit {
     private final String cardNumber;
     private final String cardHolderName;
     private final String cardExpiry;

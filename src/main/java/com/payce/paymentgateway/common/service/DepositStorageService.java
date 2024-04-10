@@ -4,6 +4,7 @@ import com.payce.paymentgateway.common.entity.DepositEntity;
 import com.payce.paymentgateway.common.exception.DuplicateReferenceException;
 import com.payce.paymentgateway.common.repo.DepositRepository;
 import com.payce.paymentgateway.common.resource.DepositDto;
+import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
 import io.micrometer.core.annotation.Timed;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -77,5 +78,14 @@ public class DepositStorageService {
                 .setExternalId(externalId);
 
         return depositRepository.save(entity).toDto();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void initiate(DepositInitiateRequest initiateRequest) {
+        DepositEntity depositEntity = DepositEntity
+                .fromDto(initiateRequest);
+
+        depositRepository.save(depositEntity);
+
     }
 }

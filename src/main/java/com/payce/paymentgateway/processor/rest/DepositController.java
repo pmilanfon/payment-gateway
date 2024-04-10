@@ -20,9 +20,15 @@ public class DepositController {
         return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/process")
-    public ResponseEntity<String> processPayment(@RequestBody DepositSubmitRequest depositSubmitRequest) {
-        depositService.process(depositSubmitRequest);
+    @PostMapping("/cardDetails")
+    public ResponseEntity<String> submitCardDetails(@RequestBody CardDetailsSubmit cardDetailsSubmit) {
+        depositService.submitCardDetails(cardDetailsSubmit);
+        return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity<String> submitDeposit(@RequestBody SubmitDepositRequest submitDepositRequest) {
+        depositService.submitDeposit(submitDepositRequest);
         return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
     }
 
