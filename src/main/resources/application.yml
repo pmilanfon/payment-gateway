@@ -38,6 +38,9 @@ state-configuration:
       from: HANDLE_FAILURE
       to: FAILED
 
+server:
+  error:
+    include-stacktrace: never
 acquirer:
   base-url: "http://localhost:9090"
 

@@ -1,15 +1,13 @@
 package com.payce.paymentgateway.processor.service;
 
 import com.payce.paymentgateway.acquier.AcquirerService;
-import com.payce.paymentgateway.common.service.DepositStorageService;
-import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
-import com.payce.paymentgateway.processor.rest.CardDetailsSubmit;
-import com.payce.paymentgateway.processor.rest.SubmitDepositRequest;
-import com.payce.paymentgateway.processor.statemachine.StateMachine;
-import com.payce.paymentgateway.processor.statemachine.event.TriggerStateMachineEvent;
+import com.payce.paymentgateway.common.repo.DepositRepository;
+import com.payce.paymentgateway.processor.rest.DepositSubmitRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DepositService {
@@ -17,20 +15,34 @@ public class DepositService {
     private final StateMachine stateMachine;
     private final AcquirerService acquirerService;
     private final DepositStorageService depositStorageService;
+    private final MapStruct mapStruct;
+
 
     public void submitCardDetails(CardDetailsSubmit cardDetailsSubmit) {
         stateMachine.onEvent(new TriggerStateMachineEvent(
                 cardDetailsSubmit.getReference(),
                 "New deposit submitted."));
 
-    }
+	public void process(DepositSubmitRequest depositSubmitRequest) {
+		DepositEntity depositEntity = depositRepository.findByReference(depositSubmitRequest.getReference());
+		mapStruct.toEntity(depositEntity, depositSubmitRequest);
+		depositRepository.save(depositEntity);
+//        stateMachine.onEvent(new TriggerStateMachineEvent(
+//                depositSubmitRequest.getReferenceId(),
+//                "New deposit submitted."));
+	}
 
-    public void initiate(DepositInitiateRequest initiateRequest) {
-        depositStorageService.initiate(initiateRequest);
-    }
+	public DepositDto get(String merchantTxRef) {
+		return depositRepository.findByMerchantTxRef(merchantTxRef)
+				.map(mapStruct::toDto)
+				.orElseThrow(DepositNotFoundException::new);
+	}
 
-    public void submitDeposit(SubmitDepositRequest submitDepositRequest) {
-        initiate(submitDepositRequest.deposit());
-        submitCardDetails(submitDepositRequest.card());
-    }
+	public String initiate(DepositInitiateRequest depositInitiateRequest) {
+		DepositEntity depositEntity = mapStruct.toEntity(depositInitiateRequest);
+		depositEntity.setReference(UUID.randomUUID().toString());
+		depositRepository.save(depositEntity);
+		log.info("Saved new deposit {}", depositEntity);
+		return "http://localhost:9090";
+	}
 }

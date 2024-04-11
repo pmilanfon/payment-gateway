@@ -1,83 +1,55 @@
 package com.payce.paymentgateway.common.entity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.payce.paymentgateway.common.resource.DepositDto;
-import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
-import com.payce.paymentgateway.processor.statemachine.state.State;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-//todo consider https://medium.com/miro-engineering/fluent-setter-breaking-the-convention-33ce3433126e
-@Accessors(chain = true)
 @Entity(name = "DEPOSIT")
+@Accessors(chain = true)
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class DepositEntity {
 
-    //todo delete
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String cardNumber;
-    private String cardHolderName;
-    private int expirationMonth;
-    private int expirationYear;
-    private String cvv;
-    private String currency;
-    private double amount;
-    private LocalDate depositDate;
-    private String merchantId;
-    private String reference;
-    private Instant latestRetry;
-    @Enumerated(EnumType.STRING)
-    private State currentState;
-    private String message;
-    private String externalId;
-    @UpdateTimestamp
-    private Instant updated;
-    @CreationTimestamp
-    private Instant created;
-    private Instant stateUpdate;
-    private String internalMessageKey;
-    private String customerMessageKey;
+	@Column(name = "card_number")
+	private String cardNumber;
 
-    //todo temporary, try mapstruct?
+	@Column(name = "card_holder_name")
+	private String cardHolderName;
 
-    public DepositDto toDto() {
-        try {
-            String s = OBJECT_MAPPER.writeValueAsString(this);
-            return OBJECT_MAPPER.readValue(s, DepositDto.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Column(name = "expiration_month")
+	private int expirationMonth;
 
-    //todo temporary, try mapstruct?
-    public static DepositEntity fromDto(DepositInitiateRequest initiateRequest) {
-        try {
-            String s = OBJECT_MAPPER.writeValueAsString(initiateRequest);
-            return OBJECT_MAPPER.readValue(s, DepositEntity.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static DepositEntity fromDto(DepositDto depositDto) {
-        try {
-            String s = OBJECT_MAPPER.writeValueAsString(depositDto);
-            return OBJECT_MAPPER.readValue(s, DepositEntity.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	@Column(name = "expiration_year")
+	private int expirationYear;
 
+	@Column(name = "cvv")
+	private String cvv;
+
+	@Column(name = "currency")
+	private String currency;
+
+	@Column(name = "amount")
+	private double amount;
+
+	@CreatedDate
+	@Column(name = "deposit_date")
+	private LocalDateTime depositDate;
+
+	@Column(name = "merchant_id")
+	private String merchantId;
+
+	@Column(name = "reference")
+	private String reference;
+
+	@Column(name = "merchant_tx_ref")
+	private String merchantTxRef;
 }

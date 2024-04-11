@@ -15,6 +15,9 @@ public class AcquirerService {
 
 	public String get() {
 		log.info("Getting tx");
-		return rest.get().uri("/get").retrieve().body(String.class);
+		return rest.get()
+				.uri("/get")
+				.retrieve()
+				.body(String.class);
 	}
 }

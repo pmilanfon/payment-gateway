@@ -1,5 +1,6 @@
 package com.payce.paymentgateway.processor.rest;
 
+import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.processor.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,13 @@ public class DepositController {
     public ResponseEntity<String> submitDeposit(@RequestBody SubmitDepositRequest submitDepositRequest) {
         depositService.submitDeposit(submitDepositRequest);
         return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/{merchantTxRef}")
+    public ResponseEntity<DepositDto> getTransaction(@PathVariable String merchantTxRef) {
+        log.info("Getting tx by merchant reference {}", merchantTxRef);
+        DepositDto depositDto = depositService.get(merchantTxRef);
+        return new ResponseEntity<>(depositDto, HttpStatus.OK);
     }
 
     /*@GetMapping("/{id}")

@@ -1,13 +1,7 @@
 package com.payce.paymentgateway.common.resource;
 
-import com.payce.paymentgateway.processor.statemachine.state.State;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.jackson.Jacksonized;
-
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @Jacksonized
@@ -21,7 +15,7 @@ public class DepositDto {
     private String cvv;
     private String currency;
     private double amount;
-    private LocalDate depositDate;
+    private LocalDateTime depositDate;
     private String merchantId;
     private String reference;
     private String externalId;

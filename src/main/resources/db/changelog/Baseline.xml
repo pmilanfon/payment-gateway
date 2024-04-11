@@ -9,19 +9,19 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="card_number" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+<!--                <constraints nullable="false"/>-->
             </column>
             <column name="card_holder_name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+<!--                <constraints nullable="false"/>-->
             </column>
             <column name="expiration_month" type="INT">
-                <constraints nullable="false"/>
+<!--                <constraints nullable="false"/>-->
             </column>
             <column name="expiration_year" type="INT">
-                <constraints nullable="false"/>
+<!--                <constraints nullable="false"/>-->
             </column>
             <column name="cvv" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+<!--                <constraints nullable="false"/>-->
             </column>
             <column name="currency" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -35,6 +35,8 @@
             <column name="merchant_id" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="reference" type="VARCHAR(255)"/>
+            <column name="merchant_tx_ref" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
 
@@ -52,31 +54,31 @@
             </column>
         </createTable>
 
-        <addPrimaryKey tableName="DEPOSIT_REQUEST_TABLE_LOCK" columnNames="LOCK_KEY,REGION"/>
+<!--        <addPrimaryKey tableName="DEPOSIT_REQUEST_TABLE_LOCK" columnNames="LOCK_KEY,REGION"/>-->
     </changeSet>
-    <changeSet id="PBS-659-3" author="cemhun">
+<!--    <changeSet id="PBS-659-3" author="cemhun">-->
 
-        <createTable tableName="STATE_TRANSITION">
+<!--        <createTable tableName="STATE_TRANSITION">-->
 
-            <column name="UUID" type="VARCHAR(64)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>
-            </column>
-            <column name="DEPOSIT_REF" type="VARCHAR(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FROM_STATE" type="VARCHAR(128)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EVENT" type="VARCHAR(128)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TO_STATE" type="VARCHAR(128)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueComputed="SYSTIMESTAMP" name="CREATED" type="TIMESTAMP(6)">
-                <constraints nullable="false"/>
-            </column>
+<!--            <column name="UUID" type="VARCHAR(64)">-->
+<!--                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>-->
+<!--            </column>-->
+<!--            <column name="DEPOSIT_REF" type="VARCHAR(256)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="FROM_STATE" type="VARCHAR(128)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="EVENT" type="VARCHAR(128)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="TO_STATE" type="VARCHAR(128)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column defaultValueComputed="SYSTIMESTAMP" name="CREATED" type="TIMESTAMP(6)">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-        </createTable>
-    </changeSet>
+<!--        </createTable>-->
+<!--    </changeSet>-->
 </databaseChangeLog>
