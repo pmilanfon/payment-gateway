@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PendingProviderState extends BaseState {
+public class PendingAcquirerState extends BaseState {
 
-    public PendingProviderState( DepositStorageService depositStorageService) {
+    public PendingAcquirerState(DepositStorageService depositStorageService) {
         super(depositStorageService);
     }
 

@@ -31,7 +31,7 @@ public class StateConfiguration {
     public StateConfiguration(InitiateState initiateState,
                               ValidateState validateState,
                               CreateOrderState createOrderState,
-                              PendingProviderState pendingProviderState,
+                              PendingAcquirerState pendingAcquirerState,
                               ExecuteState executeState,
                               DepositSuccessfulState depositSuccessfulState,
                               FailedState failedState) {
@@ -39,7 +39,7 @@ public class StateConfiguration {
         initiate = initiateState;
         validate = validateState;
         createOrder = createOrderState;
-        pendingProvider = pendingProviderState;
+        pendingProvider = pendingAcquirerState;
         execute = executeState;
         depositSuccessful = depositSuccessfulState;
         failed = failedState;

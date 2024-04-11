@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
@@ -19,7 +20,7 @@ public class DepositDto {
     private int expirationYear;
     private String cvv;
     private String currency;
-    private double amount;
+    private BigDecimal amount;
     private LocalDateTime depositDate;
     private String merchantId;
     private String reference;
@@ -27,4 +28,7 @@ public class DepositDto {
     private State currentState;
     private LocalDateTime stateUpdate;
     private String message;
+    private String merchantTxRef;
+    private String callbackUrl;
+    private String redirectUrl;
 }

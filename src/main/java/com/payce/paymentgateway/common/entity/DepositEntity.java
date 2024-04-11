@@ -68,4 +68,10 @@ public class DepositEntity {
 
 	@Column(name = "current_state")
 	private String currentState;
+
+	@Column(name = "callback_url")
+	private String callbackUrl;
+
+	@Column(name = "redirect_url")
+	private String redirectUrl;
 }

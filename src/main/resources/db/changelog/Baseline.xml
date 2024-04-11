@@ -32,6 +32,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customer_message_key" type="VARCHAR(255)"/>
+            <column name="callback_url" type="VARCHAR(512)"/>
+            <column name="redirect_url" type="VARCHAR(512)"/>
             <column name="internal_message_key" type="VARCHAR(255)"/>
             <column name="current_state" type="VARCHAR(255)"/>
             <column name="latest_retry" type="TIMESTAMP WITH TIME ZONE"/>
@@ -78,6 +80,17 @@
                 <constraints nullable="false"/>
             </column>
 
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createDepositTable" author="milpes" failOnError="true">
+        <createTable tableName="NOTIFICATION">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="reference" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="received_at" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
