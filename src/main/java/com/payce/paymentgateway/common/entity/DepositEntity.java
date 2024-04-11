@@ -33,7 +33,7 @@ public class DepositEntity {
 	private int expirationYear;
 
 	@Column(name = "cvv")
-	private String cvv;
+	private int cvv;
 
 	@Column(name = "currency")
 	private String currency;

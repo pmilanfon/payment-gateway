@@ -6,12 +6,14 @@ import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.common.service.DepositStorageService;
 import com.payce.paymentgateway.processor.rest.CardDetailsSubmit;
 import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
+import com.payce.paymentgateway.processor.rest.DepositInitiateResponse;
 import com.payce.paymentgateway.processor.rest.SubmitDepositRequest;
 import com.payce.paymentgateway.processor.statemachine.StateMachine;
 import com.payce.paymentgateway.processor.statemachine.event.TriggerStateMachineEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Slf4j
 @Service
@@ -25,7 +27,6 @@ public class DepositService {
 
 
     public void submitCardDetails(CardDetailsSubmit cardDetailsSubmit) {
-		depositStorageService.getRequest(cardDetailsSubmit.getReference());
 		stateMachine.onEvent(new TriggerStateMachineEvent(
 				cardDetailsSubmit.getReference(),
 				"New deposit submitted."));
@@ -40,7 +41,21 @@ public class DepositService {
 		return depositStorageService.findByMerchantTxRef(merchantTxRef);
 	}
 
-	public void initiate(DepositInitiateRequest depositInitiateRequest) {
-		depositStorageService.initiate(depositInitiateRequest);
+	public DepositInitiateResponse initiate(DepositInitiateRequest depositInitiateRequest) {
+		final DepositDto initiatedDeposit = depositStorageService.initiate(depositInitiateRequest);
+		final String reference = initiatedDeposit.getReference();
+		final String url = constructCashierUrl(reference);
+
+		return new DepositInitiateResponse(url, reference);
+	}
+
+	private static String constructCashierUrl(final String reference) {
+		//todo temp solution, hateoas may be better suitable
+		String cashierUrl = ServletUriComponentsBuilder.fromCurrentRequestUri()
+				.replacePath("/api/payments/deposit/cashier/" + reference)
+				.build()
+				.toUriString();
+
+		return cashierUrl;
 	}
 }

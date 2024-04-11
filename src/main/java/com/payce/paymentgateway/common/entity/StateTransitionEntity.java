@@ -17,7 +17,7 @@ public class StateTransitionEntity {
     private String uuid;
 
     @ManyToOne(targetEntity = DepositEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "reference", nullable = false, updatable = false)
+    @JoinColumn(name = "deposit_ref", nullable = false, updatable = false)
     private DepositEntity depositRequest;
 
     @Column(nullable = false, updatable = false)

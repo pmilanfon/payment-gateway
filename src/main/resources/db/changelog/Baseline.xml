@@ -55,29 +55,29 @@
 
 <!--        <addPrimaryKey tableName="DEPOSIT_REQUEST_TABLE_LOCK" columnNames="LOCK_KEY,REGION"/>-->
     </changeSet>
-<!--    <changeSet id="PBS-659-3" author="cemhun">-->
+    <changeSet id="stateTransition" author="milpes">
 
-<!--        <createTable tableName="STATE_TRANSITION">-->
+        <createTable tableName="STATE_TRANSITION">
 
-<!--            <column name="UUID" type="VARCHAR(64)">-->
-<!--                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>-->
-<!--            </column>-->
-<!--            <column name="DEPOSIT_REF" type="VARCHAR(256)">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
-<!--            <column name="FROM_STATE" type="VARCHAR(128)">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
-<!--            <column name="EVENT" type="VARCHAR(128)">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
-<!--            <column name="TO_STATE" type="VARCHAR(128)">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
-<!--            <column defaultValueComputed="SYSTIMESTAMP" name="CREATED" type="TIMESTAMP(6)">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
+            <column name="UUID" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>
+            </column>
+            <column name="DEPOSIT_REF" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FROM_STATE" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EVENT" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TO_STATE" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="CREATED" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
 
-<!--        </createTable>-->
-<!--    </changeSet>-->
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

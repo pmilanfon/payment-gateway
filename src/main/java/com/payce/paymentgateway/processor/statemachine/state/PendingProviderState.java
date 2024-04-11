@@ -17,7 +17,7 @@ public class PendingProviderState extends BaseState {
     @Override
     public Event execute(String reference) {
         log.info("Execute state");
-        return new GenericEvent(StateMachineEvent.FINANCIAL_TRANSACTION_POSTED_EVENT, reference);
+        return new GenericEvent(StateMachineEvent.PROVIDER_NOTIFIED_OK_EVENT, reference);
     }
 
     @Override

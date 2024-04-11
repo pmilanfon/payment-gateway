@@ -9,3 +9,26 @@ server:
 acquirer:
   base-url: "http://localhost:9090"
 
+scheduler:
+  retryOrFailEnabled: true
+  stateRetryTimeLimit: # in seconds, after latest_retry
+    INITIATE: 10 # 20 minutes
+    VALIDATE: 10
+    CREATE_ORDER: 10
+    PENDING_PROVIDER: 10
+    EXECUTE: 10 # 1 minute
+    HANDLE_FAILURE: 5
+  stateFailTimeLimit: # in seconds, after created
+    INITIATE: 1800 # 30 minutes
+    VALIDATE: 1800
+    CREATE_ORDER: 1800
+    PENDING_PROVIDER: 1209600 # 14 days
+    EXECUTE: 2592000 # 30 days
+    HANDLE_FAILURE: 2592000
+  stateLogAlertTimeLimit: # in seconds, after state updated
+    INITIATE: 1200 # 20 minutes
+    VALIDATE: 1200
+    CREATE_ORDER: 1200
+    PENDING_PROVIDER: -1 # never warn, this is expected
+    EXECUTE: 3600 # 1 hour
+    HANDLE_FAILURE: 3600 # 1 hour

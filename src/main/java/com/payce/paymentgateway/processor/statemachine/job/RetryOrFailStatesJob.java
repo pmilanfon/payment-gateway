@@ -15,11 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,6 +30,7 @@ import static org.springframework.data.domain.Pageable.ofSize;
 
 @Slf4j
 @AllArgsConstructor
+@Component
 public class RetryOrFailStatesJob {
 
     private static final Pageable PAGE_SIZE = ofSize(100);
@@ -52,14 +53,14 @@ public class RetryOrFailStatesJob {
         try {
             clearMdc();
 
-            Instant start = Instant.now();
+            LocalDateTime start = LocalDateTime.now();
             log.info("Running RetryOrFailStateJob");
 
             properties.getStateRetryTimeLimit().entrySet().stream()
                     .sorted(Entry.comparingByValue())
                     .forEach(this::retryState);
 
-            log.info("RetryOrFailStateJob finished in {} seconds.", Duration.between(start, Instant.now()).toSeconds());
+            log.info("RetryOrFailStateJob finished in {} seconds.", Duration.between(start, LocalDateTime.now()).toSeconds());
 
         } finally {
             clearMdc();
@@ -68,7 +69,7 @@ public class RetryOrFailStatesJob {
 
     private void retryState(Entry<String, Long> retry) {
         String state = retry.getKey();
-        Instant retryLimit = Instant.now().minus(retry.getValue(), ChronoUnit.SECONDS);
+        LocalDateTime retryLimit = LocalDateTime.now().minusSeconds(retry.getValue());
 
         boolean fullPage = true;
 

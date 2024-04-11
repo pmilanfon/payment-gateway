@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 
@@ -26,9 +26,9 @@ public class LockService {
         if (lock.tryLock()) {
             try {
                 log.info("Acquired lock for depositRef={}", ref);
-                Instant beforeOperation = Instant.now();
+                LocalDateTime beforeOperation = LocalDateTime.now();
                 operation.run();
-                log.info("Locked operation took: {} ms", Duration.between(beforeOperation, Instant.now()).toMillis());
+                log.info("Locked operation took: {} ms", Duration.between(beforeOperation, LocalDateTime.now()).toMillis());
             } finally {
                 log.info("Releasing the lock: {}", ref);
                 lock.unlock();

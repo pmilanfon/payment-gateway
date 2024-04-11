@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,21 +48,23 @@ public class DepositStorageService {
     }
 
     public void saveLatestRetry(String reference) {
-        depositRepository.updateLatestRetry(Instant.now(), reference);
+        depositRepository.updateLatestRetry(LocalDateTime.now(), reference);
     }
 
-    public List<DepositDto> findByStateAndTimeLimits(String state, Instant from, Pageable pageSize) {
+    public List<DepositDto> findByStateAndTimeLimits(String state, LocalDateTime from, Pageable pageSize) {
         return depositRepository.findByStateAndTimeLimits(state, from, pageSize).stream()
                 .map(mapStruct::toDto)
                 .toList();
     }
 
-    public void initiate(final DepositInitiateRequest depositInitiateRequest) {
+    public DepositDto initiate(final DepositInitiateRequest depositInitiateRequest) {
         DepositEntity depositEntity = mapStruct.toEntity(depositInitiateRequest)
                 .setReference(UUID.randomUUID().toString())
                 .setCurrentState(State.INITIATE.name());
 
-        depositRepository.save(depositEntity);
-        log.info("Saved new deposit {}", depositEntity);
+        final DepositEntity savedDeposit = depositRepository.save(depositEntity);
+        log.info("Saved new deposit {}", savedDeposit);
+
+        return mapStruct.toDto(savedDeposit);
     }
 }

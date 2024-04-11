@@ -16,9 +16,9 @@ public class DepositController {
     private final DepositService depositService;
 
     @PostMapping("/initiate")
-    public ResponseEntity<String> initiate(@RequestBody DepositInitiateRequest initiateRequest) {
-        depositService.initiate(initiateRequest);
-        return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
+    public ResponseEntity<DepositInitiateResponse> initiate(@RequestBody DepositInitiateRequest initiateRequest) {
+        final DepositInitiateResponse initiateResponse = depositService.initiate(initiateRequest);
+        return ResponseEntity.ok(initiateResponse);
     }
 
     @PostMapping("/cardDetails")
@@ -39,11 +39,4 @@ public class DepositController {
         DepositDto depositDto = depositService.get(merchantTxRef);
         return new ResponseEntity<>(depositDto, HttpStatus.OK);
     }
-
-    /*@GetMapping("/{id}")
-    public ResponseEntity<String> processPayment(@PathVariable String id) {
-        log.info("Getting tx {}", id);
-        depositService.(id);
-        return new ResponseEntity<>("Deposit submitted successfully", HttpStatus.OK);
-    }*/
 }

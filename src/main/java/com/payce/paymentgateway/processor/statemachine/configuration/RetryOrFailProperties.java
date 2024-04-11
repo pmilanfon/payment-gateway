@@ -1,11 +1,13 @@
 package com.payce.paymentgateway.processor.statemachine.configuration;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@ConfigurationProperties(prefix = "scheduler")
 public class RetryOrFailProperties {
     protected boolean retryOrFailEnabled;
 

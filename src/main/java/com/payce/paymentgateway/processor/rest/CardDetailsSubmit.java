@@ -10,7 +10,8 @@ import lombok.extern.jackson.Jacksonized;
 public class CardDetailsSubmit {
     private final String cardNumber;
     private final String cardHolderName;
-    private final String cardExpiry;
-    private final String cardCvv;
+    private final int expirationMonth;
+    private final int expirationYear;
+    private final int cvv;
     private final String reference;
 }

@@ -63,7 +63,6 @@ public class StateMachine {
                 handleEvent(returnedEvent, nextState);
             }
         } catch (RuntimeException e) {
-            depositStorageService.saveLatestRetry(event.getReference());
             log.error(
                     "Caught runtime exception - forced update of its latestRetry. "
                             + "Scheduler will retry according to normal configuration. {}",
