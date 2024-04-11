@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "60383f42-5fee-4fd0-894c-3c8b8a5f99c0",
+		"name": "Payce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13744573"
+	},
+	"item": [
+		{
+			"name": "Initiate",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"merchantId\": \"example_merchant\",\n  \"product\": \"example_product\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"merchantTxRef\": \"TX123456789\",\n  \"orderDescription\": \"Example deposit order\",\n  \"billingAddress\": \"123 Main St\",\n  \"address\": \"456 Secondary St\",\n  \"transactionType\": \"DEPOSIT\",\n  \"city\": \"Example City\",\n  \"state\": \"Example State\",\n  \"postCode\": \"12345\",\n  \"countryCode\": \"US\",\n  \"emailAddress\": \"example@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"ipAddress\": \"192.168.1.1\",\n  \"locale\": \"en_US\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"callbackUrl\": \"http://localhost:9090/merchant/notification\",\n  \"redirectUrl\": \"http://localhost:9090/merchant/callback\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:7777/api/payments/deposit/initiate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"api",
+						"payments",
+						"deposit",
+						"initiate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit card details",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cardNumber\": \"1234567890123456\",\n  \"cardHolderName\": \"John Doe\",\n  \"expirationMonth\": 12,\n  \"expirationYear\": 25,\n  \"cardCvv\": 123,\n  \"reference\": \"4f1fbfec-bd25-4049-96f1-3daa4e2a9f3c\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:7777/api/payments/deposit/cardDetails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"api",
+						"payments",
+						"deposit",
+						"cardDetails"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
