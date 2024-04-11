@@ -2,9 +2,7 @@ package com.payce.paymentgateway.common.entity;
 
 import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
-import com.payce.paymentgateway.processor.rest.DepositSubmitRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface MapStruct {
@@ -12,5 +10,5 @@ public interface MapStruct {
 	DepositDto toDto(DepositEntity payment);
 
 	DepositEntity toEntity(DepositInitiateRequest depositInitiateRequest);
-	void toEntity(@MappingTarget DepositEntity payment, DepositSubmitRequest depositInitiateRequest);
+//	void toEntity(@MappingTarget DepositEntity payment, DepositSubmitRequest depositInitiateRequest);
 }

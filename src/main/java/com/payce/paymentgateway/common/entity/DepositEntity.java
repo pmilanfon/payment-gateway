@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity(name = "DEPOSIT")
@@ -52,4 +53,19 @@ public class DepositEntity {
 
 	@Column(name = "merchant_tx_ref")
 	private String merchantTxRef;
+
+	@Column(name = "state_update")
+	private Instant stateUpdate;
+
+	@Column(name = "internal_message_key")
+	private String internalMessageKey;
+
+	@Column(name = "latest_retry")
+	private Instant latestRetry;
+
+	@Column(name = "customer_message_key")
+	private String customerMessageKey;
+
+	@Column(name = "current_state")
+	private String currentState;
 }

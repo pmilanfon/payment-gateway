@@ -141,8 +141,6 @@ public class RetryOrFailStatesJob {
                         StateMachineEvent.FORCED_FAIL,
                         stateMachine.getState(State.HANDLE_FAILURE));
 
-        depositStorageService.saveMessage(requestReference, messageToDb);
-
         String genericError = "payce.genericError";
 
         stateService.doStateTransitionInDatabase(

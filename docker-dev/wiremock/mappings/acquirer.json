@@ -1,0 +1,82 @@
+{
+  "mappings": [
+    {
+      "scenarioName": "deposit",
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/acq/payment/intent"
+      },
+      "response": {
+        "status": 200,
+        "jsonBody": {
+          "status": "ok",
+          "at": "2023-11-29T14:15:00Z",
+          "transaction_id": "01HGDPXQBAF07938MHA6H18NFF",
+          "order_ref": "404871968",
+          "total_requested": {
+            "amount": 10.24,
+            "currency": "EUR"
+          },
+          "score": {
+            "grade": "ok",
+            "result": 176,
+            "max": 1000,
+            "categories": [
+              {
+                "key": "Device",
+                "adj": -50
+              },
+              {
+                "key": "Fraud",
+                "adj": -174
+              },
+              {
+                "key": "Identity",
+                "adj": -50
+              },
+              {
+                "key": "Other",
+                "adj": -200
+              },
+              {
+                "key": "History",
+                "adj": -100
+              },
+              {
+                "key": "Velocity",
+                "adj": -100
+              },
+              {
+                "key": "Behavior",
+                "adj": 0
+              },
+              {
+                "key": "Card",
+                "adj": -100
+              },
+              {
+                "key": "Location",
+                "adj": -50
+              }
+            ]
+          },
+          "card": {
+            "id": "01FNV79G3BTBTRZAXVHJFQDMB1",
+            "bin": "400000",
+            "pan": "400000******0007"
+          },
+          "failure_code": 6,
+          "customer": {
+            "name": {
+              "first": "Asia",
+              "last": "Harding"
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      }
+    }
+  ]
+}

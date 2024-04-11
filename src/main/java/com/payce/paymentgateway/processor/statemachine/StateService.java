@@ -49,10 +49,8 @@ public class StateService {
 
         DepositEntity depositEntity =
                 depositRequestRepository.findByReference(reference)
-                        .setStateUpdate(now)
                         .setLatestRetry(now)
-                        .setUpdated(now)
-                        .setCurrentState(stateTransition.to().getStateType());
+                        .setCurrentState(stateTransition.to().getStateType().name());
 
         if (errorMessage != null) {
             depositEntity
