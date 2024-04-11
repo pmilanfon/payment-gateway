@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Builder
@@ -26,7 +25,6 @@ public class DepositDto {
     private String reference;
     private String externalId;
     private State currentState;
-    private Instant created;
-    private Instant stateUpdate;
+    private LocalDateTime stateUpdate;
     private String message;
 }

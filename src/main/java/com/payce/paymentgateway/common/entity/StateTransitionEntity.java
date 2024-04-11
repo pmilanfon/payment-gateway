@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Table(name = "STATE_TRANSITION")
@@ -31,5 +31,5 @@ public class StateTransitionEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
-    private Instant created;
+    private LocalDateTime created;
 }

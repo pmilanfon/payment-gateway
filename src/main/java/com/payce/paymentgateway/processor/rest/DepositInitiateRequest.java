@@ -9,12 +9,11 @@ public class DepositInitiateRequest {
 	private String merchantId;
 	private String product;
 	private BigDecimal amount;
-	private String currencyCode;
+	private String currency;
 	private String merchantTxRef;
 	private String orderDescription;
 	private String billingAddress;
 	private String address;
-	private String transactionType;
 	private String city;
 	private String state;
 	private String postCode;

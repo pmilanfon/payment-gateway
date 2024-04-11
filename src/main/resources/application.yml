@@ -5,6 +5,7 @@ spring:
 server:
   error:
     include-stacktrace: never
+  port: 7777
 acquirer:
   base-url: "http://localhost:9090"
 

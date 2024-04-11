@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +120,7 @@ public class RetryOrFailStatesJob {
 
     private boolean shouldBeFailed(DepositDto depositDto) {
         State currentState = depositDto.getCurrentState();
-        long timeSinceCreated = System.currentTimeMillis() - depositDto.getCreated().toEpochMilli();
+        long timeSinceCreated = System.currentTimeMillis() - depositDto.getDepositDate().atZone(ZoneId.systemDefault()).toEpochSecond();
 
         return !currentState.isFinalState()
                 && isConfigured(currentState, properties.getStateFailTimeLimit())
@@ -155,7 +156,7 @@ public class RetryOrFailStatesJob {
 
     private boolean shouldAlertLog(DepositDto depositDto) {
         State state = depositDto.getCurrentState();
-        long timeSinceUpdated = System.currentTimeMillis() - depositDto.getStateUpdate().toEpochMilli();
+        long timeSinceUpdated = System.currentTimeMillis() - depositDto.getStateUpdate().atZone(ZoneId.systemDefault()).toEpochSecond();
         return !state.isFinalState()
                 && isConfigured(state, properties.getStateLogAlertTimeLimit())
                 && timeSinceUpdated > Duration.ofSeconds(properties.getStateLogAlertTimeLimit().get(state.name())).toMillis();
@@ -163,7 +164,7 @@ public class RetryOrFailStatesJob {
 
     private void alertLog(final DepositDto depositDto) {
         State state = depositDto.getCurrentState();
-        long timeSinceUpdated = System.currentTimeMillis() - depositDto.getStateUpdate().toEpochMilli();
+        long timeSinceUpdated = System.currentTimeMillis() - depositDto.getStateUpdate().atZone(ZoneId.systemDefault()).toEpochSecond();
         long minutes = timeSinceUpdated / MILLIS_PER_SECOND / SECONDS_PER_MINUTE;
         Long alertLimit = properties.getStateLogAlertTimeLimit().get(state.name());
 

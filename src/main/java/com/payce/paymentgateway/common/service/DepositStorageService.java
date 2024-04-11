@@ -2,19 +2,16 @@ package com.payce.paymentgateway.common.service;
 
 import com.payce.paymentgateway.common.entity.DepositEntity;
 import com.payce.paymentgateway.common.entity.MapStruct;
-import com.payce.paymentgateway.common.exception.DuplicateReferenceException;
 import com.payce.paymentgateway.common.repo.DepositRepository;
 import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
+import com.payce.paymentgateway.processor.statemachine.state.State;
 import io.micrometer.core.annotation.Timed;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -61,8 +58,10 @@ public class DepositStorageService {
     }
 
     public void initiate(final DepositInitiateRequest depositInitiateRequest) {
-        DepositEntity depositEntity = mapStruct.toEntity(depositInitiateRequest);
-        depositEntity.setReference(UUID.randomUUID().toString());
+        DepositEntity depositEntity = mapStruct.toEntity(depositInitiateRequest)
+                .setReference(UUID.randomUUID().toString())
+                .setCurrentState(State.INITIATE.name());
+
         depositRepository.save(depositEntity);
         log.info("Saved new deposit {}", depositEntity);
     }

@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity(name = "DEPOSIT")
@@ -39,7 +39,7 @@ public class DepositEntity {
 	private String currency;
 
 	@Column(name = "amount")
-	private double amount;
+	private BigDecimal amount;
 
 	@CreatedDate
 	@Column(name = "deposit_date")
@@ -55,13 +55,13 @@ public class DepositEntity {
 	private String merchantTxRef;
 
 	@Column(name = "state_update")
-	private Instant stateUpdate;
+	private LocalDateTime stateUpdate;
 
 	@Column(name = "internal_message_key")
 	private String internalMessageKey;
 
 	@Column(name = "latest_retry")
-	private Instant latestRetry;
+	private LocalDateTime latestRetry;
 
 	@Column(name = "customer_message_key")
 	private String customerMessageKey;
