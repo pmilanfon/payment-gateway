@@ -18,8 +18,9 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
+    formatSeparator: ',',
   },
-});
+}).catch((err) => console.log(err));
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

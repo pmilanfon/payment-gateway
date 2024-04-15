@@ -17,14 +17,14 @@ interface CardNumberInputProps {
 }
 
 const imgSrcByType = {
-    visa: './src/assets/card-icons/visa.svg',
-    mastercard: './src/assets/card-icons/mastercard.svg',
-    'american-express': './src/assets/card-icons/amex.svg',
-    'diners-club': './src/assets/card-icons/diners.svg',
-    discover: './src/assets/card-icons/discover.svg',
-    jcb: './src/assets/card-icons/jcb.svg',
-    maestro: './src/assets/card-icons/maestro.svg',
-  };
+  visa: './src/assets/card-icons/visa.svg',
+  mastercard: './src/assets/card-icons/mastercard.svg',
+  'american-express': './src/assets/card-icons/amex.svg',
+  'diners-club': './src/assets/card-icons/diners.svg',
+  discover: './src/assets/card-icons/discover.svg',
+  jcb: './src/assets/card-icons/jcb.svg',
+  maestro: './src/assets/card-icons/maestro.svg',
+};
 
 const CardNumberInput: React.FC<CardNumberInputProps> = ({
   formState,

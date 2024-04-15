@@ -1,28 +1,16 @@
 import { Button, VStack } from '@chakra-ui/react';
 import valid from 'card-validator';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CardHolderNameInput from './components/CardHolderNameInput';
 import FormHeader from './components/FormHeader';
 import CardNumberInput from './components/CardNumberInput';
 import ExpirationDateInput from './components/ExpirationDateInput';
 import CvvInput from './components/CvvInput';
 import { FormState, initialFormState } from './components/utils/FormState';
-import { LoadingSpinner } from './components/LoadingSpinner';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const PaymentForm = ({setAppState, appState}: any) => {
+export const PaymentForm = () => {
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-  console.error(appState.amount)
   const validateCardNumber = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
     const value = valid.number(e.target.value);
@@ -35,8 +23,8 @@ export const PaymentForm = ({setAppState, appState}: any) => {
         isInvalid: !value[isBlurEvent ? 'isValid' : 'isPotentiallyValid'],
         cardNiceType: value.card ? value.card.niceType : '',
         cardType: value.card ? value.card.type : '',
-        codeName: value.card && value.card.code ? value.card.code.name : '',
-        codeSize: value.card && value.card.code ? value.card.code.size : 3,
+        codeName: value?.card?.code ? value.card.code.name : '',
+        codeSize: value?.card?.code ? value.card.code.size : 3,
         readyForSubmit: value.isValid,
       },
       ...(isBlurEvent
@@ -98,7 +86,6 @@ export const PaymentForm = ({setAppState, appState}: any) => {
   };
 
   return (
-    isLoading ? <LoadingSpinner text={'Connecting to provider...'} /> :
     <form style={{ width: 350 }}>
       <VStack>
         <FormHeader />
@@ -116,14 +103,7 @@ export const PaymentForm = ({setAppState, appState}: any) => {
         />
         <CvvInput formState={formState} validateCvv={validateCvv} />
         <Button
-          onClick={() =>setAppState({
-            mockMerchantVisible: false,
-            receiptVisible: appState.amount !== 42 ? true : false,
-            errorVisible: appState.amount === 42 ? true : false,
-            paymentFormVisible: false,
-            amount: appState.amount,
-            amountAfterFee: appState.amountAfterFee
-          })}
+          // onClick={}
           p="4"
           mx="4"
           mt="6"
@@ -132,7 +112,7 @@ export const PaymentForm = ({setAppState, appState}: any) => {
           variant="solid"
           isDisabled={!isFormReadyForSubmit()}
         >
-          Deposit - {appState.amountAfterFee.toFixed(2)}$
+          Deposit
         </Button>
       </VStack>
     </form>
