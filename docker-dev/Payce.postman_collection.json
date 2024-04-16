@@ -1,13 +1,34 @@
 {
 	"info": {
-		"_postman_id": "60383f42-5fee-4fd0-894c-3c8b8a5f99c0",
+		"_postman_id": "570dedb7-024f-4412-b2c6-371bde1032cd",
 		"name": "Payce",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "13744573"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Initiate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"reference\", json.reference)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uuid = require('uuid');",
+							"pm.collectionVariables.set(\"merchant_reference\", uuid.v4());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"content-type": true
@@ -24,15 +45,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"merchantId\": \"example_merchant\",\n  \"product\": \"example_product\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"merchantTxRef\": \"TX123456789\",\n  \"orderDescription\": \"Example deposit order\",\n  \"billingAddress\": \"123 Main St\",\n  \"address\": \"456 Secondary St\",\n  \"transactionType\": \"DEPOSIT\",\n  \"city\": \"Example City\",\n  \"state\": \"Example State\",\n  \"postCode\": \"12345\",\n  \"countryCode\": \"US\",\n  \"emailAddress\": \"example@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"ipAddress\": \"192.168.1.1\",\n  \"locale\": \"en_US\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"callbackUrl\": \"http://localhost:9090/merchant/notification\",\n  \"redirectUrl\": \"http://localhost:9090/merchant/callback\"\n}\n"
+					"raw": "{\n  \"merchantId\": \"example_merchant\",\n  \"product\": \"example_product\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"merchantTxRef\": \"{{merchant_reference}}\",\n  \"orderDescription\": \"Example deposit order\",\n  \"billingAddress\": \"123 Main St\",\n  \"address\": \"456 Secondary St\",\n  \"transactionType\": \"DEPOSIT\",\n  \"city\": \"Example City\",\n  \"state\": \"Example State\",\n  \"postCode\": \"12345\",\n  \"countryCode\": \"US\",\n  \"emailAddress\": \"example@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"ipAddress\": \"192.168.1.1\",\n  \"locale\": \"en_US\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"callbackUrl\": \"http://localhost:9090/merchant/notification\",\n  \"redirectUrl\": \"http://localhost:9090/merchant/callback\"\n}\n"
 				},
 				"url": {
-					"raw": "http://localhost:7777/api/payments/deposit/initiate",
-					"protocol": "http",
+					"raw": "{{host}}/api/payments/deposit/initiate",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "7777",
 					"path": [
 						"api",
 						"payments",
@@ -61,15 +80,13 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"cardNumber\": \"1234567890123456\",\n  \"cardHolderName\": \"John Doe\",\n  \"expirationMonth\": 12,\n  \"expirationYear\": 25,\n  \"cardCvv\": 123,\n  \"reference\": \"4f1fbfec-bd25-4049-96f1-3daa4e2a9f3c\"\n}\n"
+					"raw": "{\n  \"cardNumber\": \"1234567890123456\",\n  \"cardHolderName\": \"John Doe\",\n  \"expirationMonth\": 12,\n  \"expirationYear\": 25,\n  \"cardCvv\": 123,\n  \"reference\": \"{{reference}}\"\n}\n"
 				},
 				"url": {
-					"raw": "http://localhost:7777/api/payments/deposit/cardDetails",
-					"protocol": "http",
+					"raw": "{{host}}/api/payments/deposit/cardDetails",
 					"host": [
-						"localhost"
+						"{{host}}"
 					],
-					"port": "7777",
 					"path": [
 						"api",
 						"payments",
@@ -79,6 +96,60 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get tx",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/payments/deposit/{{merchant_reference}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"deposit",
+						"{{merchant_reference}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "reference",
+			"value": "0711e7b6-a82b-46e8-bfa3-e41da320fd3b"
+		},
+		{
+			"key": "host",
+			"value": "http://localhost:7777"
+		},
+		{
+			"key": "merchant_reference",
+			"value": "0711e7b6-a82b-46e8-bfa3-e41da320fd3b"
 		}
 	]
 }

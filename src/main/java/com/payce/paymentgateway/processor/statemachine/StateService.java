@@ -65,8 +65,7 @@ public class StateService {
                 .setDepositRequest(depositEntity)
                 .setFromState(stateTransition.from().getStateType().name())
                 .setEvent(stateTransition.event().name())
-                .setToState(stateTransition.to().getStateType().name())
-                .setCreated(now);
+                .setToState(stateTransition.to().getStateType().name());
 
         stateTransitionRepository.save(stateTransitionEntity);
     }

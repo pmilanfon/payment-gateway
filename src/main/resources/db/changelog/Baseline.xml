@@ -26,10 +26,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="reference" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints unique="true" nullable="false"/>
             </column>
             <column name="merchant_tx_ref" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints unique="true" nullable="false"/>
             </column>
             <column name="customer_message_key" type="VARCHAR(255)"/>
             <column name="internal_message_key" type="VARCHAR(255)"/>
@@ -76,7 +76,7 @@
             <column name="TO_STATE" type="VARCHAR(128)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="CREATED" type="TIMESTAMP(6)">
+            <column name="CREATED" type="TIMESTAMP(6)">
                 <constraints nullable="false"/>
             </column>
 

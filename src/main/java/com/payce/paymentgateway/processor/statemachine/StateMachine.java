@@ -34,7 +34,7 @@ public class StateMachine {
     }
 
     //todo why not fetch deposit before this method, but in each state?
-    private void perform(TriggerStateMachineEvent event) {
+    private void perform(Event event) {
         try {
             DepositDto transactionRequest = depositStorageService
                     .getRequest(event.getReference());

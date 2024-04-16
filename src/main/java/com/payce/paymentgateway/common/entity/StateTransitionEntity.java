@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Data
-@Table(name = "STATE_TRANSITION")
+@Entity(name = "STATE_TRANSITION")
 @Accessors(chain = true)
-@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class StateTransitionEntity {
     @Id
     @UuidGenerator
@@ -29,7 +31,7 @@ public class StateTransitionEntity {
     @Column(nullable = false, updatable = false)
     private String toState;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime created;
 }
