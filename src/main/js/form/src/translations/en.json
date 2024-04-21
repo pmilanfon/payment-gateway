@@ -1,0 +1,7 @@
+{
+    "cardHolderNameInput": {
+        "label": "Cardholder name",
+        "placeholder": "Enter cardholder name",
+        "errorMessage": "Cardholder name is required"
+    }
+}
