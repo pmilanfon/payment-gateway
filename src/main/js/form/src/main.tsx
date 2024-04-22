@@ -8,6 +8,10 @@ import { initReactI18next, I18nextProvider } from 'react-i18next';
 
 import enTranslation from './translations/en.json';
 
+const referenceId = window.location.pathname.split('/').pop();
+
+console.log("EVO GA REFERENCE ID: " + referenceId)
+
 i18n.use(initReactI18next).init({
   resources: {
     en: {

@@ -10,5 +10,9 @@ export default defineConfig({
     server: {
         host: true,
     },
-    base: './',
+    base: '/backoffice/',
+    build: {
+        outDir: '../../resources/static/backoffice',
+        emptyOutDir: true,
+    },
 });

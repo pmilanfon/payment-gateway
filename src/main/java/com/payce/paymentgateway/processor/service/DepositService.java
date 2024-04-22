@@ -98,7 +98,7 @@ public class DepositService {
 	private static String constructCashierUrl(final String reference) {
 		//todo temp solution, hateoas may be better suitable
 		String cashierUrl = ServletUriComponentsBuilder.fromCurrentRequestUri()
-				.replacePath("/api/payments/deposit/cashier/" + reference)
+				.replacePath("/api/payments/form/" + reference)
 				.build()
 				.toUriString();
 
