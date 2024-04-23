@@ -29,7 +29,12 @@ public class StateMachine {
     private final DepositStorageService depositStorageService;
 
     @Async
+    public void onEventAsync(TriggerStateMachineEvent event) {
+        onEvent(event);
+    }
+
     public void onEvent(TriggerStateMachineEvent event) {
+        log.info("State machine triggered for ref {} by {}", event.getReference(), event.getTriggeredFrom());
         lockService.performWithLock(event.getReference(), () -> perform(event));
     }
 

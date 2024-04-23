@@ -93,11 +93,7 @@ public class RetryOrFailStatesJob {
         String requestReference = depositDto.getReference();
         log.info("Retrying state for ref={}, state={}", requestReference, depositDto.getCurrentState());
         try {
-            // things to consider
-            // async call, one thread by default if not on java 21 so we do not benefit from it
-            // can be moved to failed down bellow while state machine is handling event
-            // exception we are trying to catch will not be propagated
-            stateMachine.onEvent(new TriggerStateMachineEvent(requestReference, "RetryJob"));
+            stateMachine.onEventAsync(new TriggerStateMachineEvent(requestReference, "RetryJob"));
         } catch (Exception e) {
             String msg = "Retry of state failed for %s. Will evaluate again. Exception thrown:".formatted(requestReference);
             log.error(msg, e);

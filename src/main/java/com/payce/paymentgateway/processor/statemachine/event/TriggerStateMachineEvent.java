@@ -2,9 +2,11 @@ package com.payce.paymentgateway.processor.statemachine.event;
 
 import com.payce.paymentgateway.processor.statemachine.state.StateMachineEvent;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 import lombok.ToString;
 
 @ToString
+@Getter
 public class TriggerStateMachineEvent extends Event {
 
     @NotBlank
