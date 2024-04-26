@@ -4,6 +4,7 @@ import com.payce.paymentgateway.common.entity.DepositEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DepositRepository extends CrudRepository<DepositEntity, Long> {
+public interface DepositRepository extends CrudRepository<DepositEntity, Long>, QuerydslPredicateExecutor<DepositEntity> {
     DepositEntity findByReference(String reference);
 
     @Modifying

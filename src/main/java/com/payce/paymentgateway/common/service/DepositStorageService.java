@@ -6,10 +6,12 @@ import com.payce.paymentgateway.common.repo.DepositRepository;
 import com.payce.paymentgateway.common.resource.DepositDto;
 import com.payce.paymentgateway.processor.rest.DepositInitiateRequest;
 import com.payce.paymentgateway.processor.statemachine.state.State;
+import com.querydsl.core.types.Predicate;
 import io.micrometer.core.annotation.Timed;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,14 @@ public class DepositStorageService {
         return ofNullable(depositRepository.findByReference(reference))
                 .map(mapStruct::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(reference));
+    }
+
+    public void save(DepositEntity deposit) {
+        depositRepository.save(deposit);
+    }
+
+    public Page<DepositEntity> find(Predicate predicate, Pageable pageable) {
+        return depositRepository.findAll(predicate, pageable);
     }
 
     @Timed

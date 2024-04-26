@@ -116,6 +116,51 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get tx BO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/payments/back-office?merchantTxRef=txref123&reference=&cardHolderName&state&toDate&fromDate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"payments",
+						"back-office"
+					],
+					"query": [
+						{
+							"key": "merchantTxRef",
+							"value": "txref123"
+						},
+						{
+							"key": "reference",
+							"value": ""
+						},
+						{
+							"key": "cardHolderName",
+							"value": null
+						},
+						{
+							"key": "state",
+							"value": null
+						},
+						{
+							"key": "toDate",
+							"value": null
+						},
+						{
+							"key": "fromDate",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

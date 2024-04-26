@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <springProfile name="!local">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%black(%d{ISO8601}) %highlight(%-5level) [%mdc] [%blue(%t)] %yellow(%logger{36}): %magenta(%X{web}){faint}%cyan(%X{mob}){faint}%msg%n%throwable
+                </pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="local">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%black(%d{HH:mm:ss.SSS}) %highlight(%-5level) %yellow(%-40.40logger{1}): %magenta(%X{web}){faint}%cyan(%X{mob}){faint}%msg%n%throwable
+                </pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type" level="TRACE"/>
+    <!--<logger name="org.hibernate.type.descriptor.sql" level="TRACE" />-->
+
+</configuration>
