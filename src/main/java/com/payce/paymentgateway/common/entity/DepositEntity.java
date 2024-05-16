@@ -3,6 +3,7 @@ package com.payce.paymentgateway.common.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -45,6 +46,7 @@ public class DepositEntity {
 	@Column(name = "deposit_date")
 	private LocalDateTime depositDate;
 
+	@CreatedBy
 	@Column(name = "merchant_id")
 	private String merchantId;
 

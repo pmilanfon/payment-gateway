@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 
 @Data
 public class DepositInitiateRequest {
-	private String merchantId;
 	private String product;
 	private BigDecimal amount;
 	private String currency;

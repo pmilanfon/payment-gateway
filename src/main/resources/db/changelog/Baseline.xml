@@ -58,9 +58,7 @@
 <!--        <addPrimaryKey tableName="DEPOSIT_REQUEST_TABLE_LOCK" columnNames="LOCK_KEY,REGION"/>-->
     </changeSet>
     <changeSet id="stateTransition" author="milpes">
-
         <createTable tableName="STATE_TRANSITION">
-
             <column name="UUID" type="VARCHAR(64)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STATE_TRANSITION"/>
             </column>
@@ -91,6 +89,62 @@
             <column name="reference" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(255)"/>
             <column name="received_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createMerchantTable" author="markid" failOnError="true">
+        <createTable tableName="MERCHANT">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="VARCHAR(63)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="client_secret" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(63)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="role" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createUserTable" author="markid" failOnError="true">
+        <createTable tableName="_USER">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(63)"/>
+            <column name="last_name" type="VARCHAR(63)"/>
+            <column name="email" type="VARCHAR(63)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="merchant_id" type="int">
+                <constraints nullable="true" referencedTableName="merchant"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_user_merchant"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(63)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

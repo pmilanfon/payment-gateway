@@ -12,4 +12,5 @@ public class BORequest {
 	private final String state;
 	private final LocalDateTime toDate;
 	private final LocalDateTime fromDate;
+	private String merchantId;
 }

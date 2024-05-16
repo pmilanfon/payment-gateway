@@ -44,6 +44,8 @@ public class DepositService {
 
 	public Page<DepositDto> getRequest(BORequest reference, Pageable page) {
 		List<BooleanExpression> expressions = new ArrayList<>();
+		addIfNotNull(expressions, reference.getMerchantId(),
+				() -> QDepositEntity.depositEntity.merchantId.eq(reference.getMerchantId()));
 		addIfNotNull(expressions, reference.getMerchantTxRef(),
 				() -> QDepositEntity.depositEntity.merchantTxRef.eq(reference.getMerchantTxRef()));
 		addIfNotNull(expressions, reference.getCardHolderName(),

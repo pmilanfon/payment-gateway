@@ -4,6 +4,7 @@ spring:
 
 acquirer:
   base-url: "http://localhost:9090"
-
+hibernate:
+  dialect: org.hibernate.dialect.H2Dialect
 #hibernate:
 #  show_sql: true

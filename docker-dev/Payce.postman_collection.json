@@ -35,6 +35,16 @@
 				}
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -45,7 +55,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"merchantId\": \"example_merchant\",\n  \"product\": \"example_product\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"merchantTxRef\": \"{{merchant_reference}}\",\n  \"orderDescription\": \"Example deposit order\",\n  \"billingAddress\": \"123 Main St\",\n  \"address\": \"456 Secondary St\",\n  \"transactionType\": \"DEPOSIT\",\n  \"city\": \"Example City\",\n  \"state\": \"Example State\",\n  \"postCode\": \"12345\",\n  \"countryCode\": \"US\",\n  \"emailAddress\": \"example@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"ipAddress\": \"192.168.1.1\",\n  \"locale\": \"en_US\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"callbackUrl\": \"http://localhost:9090/merchant/notification\",\n  \"redirectUrl\": \"http://localhost:9090/merchant/callback\"\n}\n"
+					"raw": "{\n  \"product\": \"example_product\",\n  \"amount\": 100.00,\n  \"currency\": \"USD\",\n  \"merchantTxRef\": \"{{merchant_reference}}\",\n  \"orderDescription\": \"Example deposit order\",\n  \"billingAddress\": \"123 Main St\",\n  \"address\": \"456 Secondary St\",\n  \"transactionType\": \"DEPOSIT\",\n  \"city\": \"Example City\",\n  \"state\": \"Example State\",\n  \"postCode\": \"12345\",\n  \"countryCode\": \"US\",\n  \"emailAddress\": \"example@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"ipAddress\": \"192.168.1.1\",\n  \"locale\": \"en_US\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"callbackUrl\": \"http://localhost:9090/merchant/notification\",\n  \"redirectUrl\": \"http://localhost:9090/merchant/callback\"\n}\n"
 				},
 				"url": {
 					"raw": "{{host}}/api/payments/deposit/initiate",
@@ -70,6 +80,16 @@
 				}
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -120,43 +140,338 @@
 		{
 			"name": "Get tx BO",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/api/payments/back-office?merchantTxRef=txref123&reference=&cardHolderName&state&toDate&fromDate",
+					"raw": "{{host}}/api/payments/back-office/transactions?page=0&size=5&sort=depositDate,desc",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"payments",
-						"back-office"
+						"back-office",
+						"transactions"
 					],
 					"query": [
 						{
 							"key": "merchantTxRef",
-							"value": "txref123"
+							"value": "txref123",
+							"disabled": true
 						},
 						{
 							"key": "reference",
-							"value": ""
+							"value": "ref123",
+							"disabled": true
 						},
 						{
 							"key": "cardHolderName",
-							"value": null
+							"value": "John Smith",
+							"disabled": true
 						},
 						{
 							"key": "state",
-							"value": null
+							"value": "DEPOSIT_SUCCESSFUL",
+							"disabled": true
 						},
 						{
 							"key": "toDate",
-							"value": null
+							"value": "2024-04-09T10:15:30",
+							"disabled": true
 						},
 						{
 							"key": "fromDate",
-							"value": null
+							"value": "2024-04-07T10:15:30",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sort",
+							"value": "currentState,asc",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "depositDate,desc"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"if (responseBody.hasOwnProperty('accessToken')) {",
+							"    pm.collectionVariables.set('token', responseBody.accessToken);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"test\",\n  \"password\": \"test\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/authenticate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-merchant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"if (responseBody.hasOwnProperty('merchantId')) {",
+							"    pm.collectionVariables.set('merchantId', responseBody.merchantId);",
+							"    pm.collectionVariables.set('merchantName', responseBody.name);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"3\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/create-merchant",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"create-merchant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"firstName\",\n  \"lastName\": \"lastName\",\n  \"email\": \"email\",\n  \"password\": \"password\",\n  \"role\": \"MERCHANT_ADMIN\",\n  \"merchant\": \"{{merchantName}}\"\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBody = pm.response.json();",
+							"",
+							"if (responseBody.hasOwnProperty('accessToken')) {",
+							"    pm.collectionVariables.set('token', responseBody.accessToken);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{merchantId}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "clients_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/oauth2/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"oauth2",
+						"token"
 					]
 				}
 			},
@@ -195,6 +510,18 @@
 		{
 			"key": "merchant_reference",
 			"value": "0711e7b6-a82b-46e8-bfa3-e41da320fd3b"
+		},
+		{
+			"key": "token",
+			"value": "asd"
+		},
+		{
+			"key": "merchantId",
+			"value": "c82300e7-2ed0-4f64-8b1a-658b1c3b024f"
+		},
+		{
+			"key": "merchantName",
+			"value": "1"
 		}
 	]
 }
