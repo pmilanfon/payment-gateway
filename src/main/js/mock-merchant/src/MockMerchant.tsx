@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
+import {
+    FormControl,
+    FormLabel,
+    Input,
+    Button,
+    FormErrorMessage,
+    FormHelperText,
+    Box,
+    useColorModeValue,
+  } from "@chakra-ui/react";
 
 const MoneyForm: React.FC = () => {
     const [amount, setAmount] = useState<string>('');
+    const [error, setError] = useState("")
     // const [merchantId, setMerchantId] = useState<string>('');
     // const [product, setProduct] = useState<string>('');
     // const [currency, setCurrency] = useState<string>('');
@@ -64,6 +75,7 @@ const MoneyForm: React.FC = () => {
             });
 
             if (!response.ok) {
+                setError('Network response was not ok');
                 throw new Error('Network response was not ok');
             }
 
@@ -94,18 +106,37 @@ const MoneyForm: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Amount:
-                <input 
-                    type="number" 
-                    value={amount} 
-                    onChange={(e) => setAmount(e.target.value)} 
-                />
-            </label>
-            <button type="submit">Submit</button>
-        </form>
-    );
+        <Box
+          maxW="md"
+          mx="auto"
+          p={8}
+          bg={useColorModeValue("white", "gray.800")}
+          shadow="md"
+          rounded="lg"
+        >
+          <form onSubmit={handleSubmit}>
+            <FormControl isInvalid={!!error}>
+              <FormLabel htmlFor="amount">Amount:</FormLabel>
+              <Input
+                id="amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+              {error && <FormErrorMessage>{error}</FormErrorMessage>}
+              <FormHelperText>Please enter a valid amount.</FormHelperText>
+            </FormControl>
+            <Button
+              mt={4}
+              colorScheme="blue"
+              isLoading={false}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </form>
+        </Box>
+      );
 };
 
 export default MoneyForm;
