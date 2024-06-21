@@ -27,12 +27,14 @@ const MoneyForm: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        const merchantTxRef = crypto.randomUUID()
+
         const bodyData = {
             amount: parseFloat(amount),
-            "merchantId": "example_merchant_23",
+            "merchantId": "example_merchant",
             "product": "example_product",
             "currency": "USD",
-            "merchantTxRef": "{{merchant_reference}}",
+            "merchantTxRef": merchantTxRef,
             "orderDescription": "Example deposit order",
             "billingAddress": "123 Main St",
             "address": "456 Secondary St",
@@ -66,11 +68,12 @@ const MoneyForm: React.FC = () => {
             }
 
             const data = await response.json();
-            window.open(data.url);
+            //window.open(data.url);
+            window.location.href = data.url
 
             const pollPaymentStatus = async () => {
                 try {
-                    const paymentStatusResponse = await fetch(`http://localhost:7777/api/payments/deposit/${data.reference}`);
+                    const paymentStatusResponse = await fetch(`http://localhost:7777/api/payments/deposit/${merchantTxRef}`);
                     const paymentStatusData = await paymentStatusResponse.json();
     
                     if (paymentStatusData.currentState === 'DEPOSIT_SUCCESSFUL') {
