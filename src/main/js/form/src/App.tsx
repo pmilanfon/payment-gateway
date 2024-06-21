@@ -9,6 +9,7 @@ export interface AppState {
   amount: number;
   amountAfterFee: number;
 }
+
 function App() {
   return (
     <>

@@ -1,10 +1,15 @@
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   Datagrid,
   DateField,
+  DateInput,
   EmailField,
   List,
   NumberField,
   SearchInput,
+  SelectInput,
   TextField,
 } from "react-admin";
 
@@ -16,28 +21,26 @@ import {
 const transactionFilters = [
   <SearchInput source="q" alwaysOn key={"q"} />,
   // <TextInput label="Title" source="title" defaultValue="Hello, World!" />,
-//   <SelectInput source="state" key={"state"} />,
+  <DateInput label="From Date" source="fromDate" alwaysOn parse={(date) => (date ? date.toISOString() : null)} />,
+  <DateInput label="To Date" source="toDate" alwaysOn parse={(date) => (date ? date.toISOString() : null)} />
+  //<DatePicker label="fromDate" />
 
 ];
 
 export const TransactionList = () => (
-  <List sort={{ field: 'updated', order: 'DESC' }} filters={transactionFilters}>
+  <List 
+    sort={{ field: 'fromDate', order: 'DESC' }} 
+    filters={transactionFilters} 
+    filterDefaultValues={{ fromDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), toDate: new Date() }}>
     <Datagrid rowClick="show">
       {/* <ReferenceField source="merchantId" reference="merchants" />
             <ReferenceField source="transactionId" reference="transactions" /> */}
-      <TextField source="merchantId" />
-      <TextField source="transactionId" />
-      <DateField source="created" />
+      <TextField source="merchantTxRef" />
+      <TextField source="reference" />
+      <TextField source="cardHolderName" />
       <TextField source="state" />
-      <NumberField source="status" />
-      <NumberField source="amount" />
-      <NumberField source="fee" />
-      <DateField source="updated" />
-      <TextField source="userIp" />
-      <TextField source="channel" />
-      <EmailField source="userEmail" />
-      <TextField source="userCountry" />
-      <TextField source="userAccount" />
+      <DateField source="fromDate" />
+      <DateField source="toDate" />
     </Datagrid>
   </List>
 );

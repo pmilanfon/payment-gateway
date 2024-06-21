@@ -36,6 +36,7 @@ const CardHolderNameInput: React.FC<CardHolderNameInputProps> = ({
           ? !validation.isValid
           : !validation.isPotentiallyValid,
         readyForSubmit: validation.isValid,
+        value: inputValue,
       },
     }));
   };

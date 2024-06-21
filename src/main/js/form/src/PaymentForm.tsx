@@ -1,12 +1,13 @@
 import { Button, VStack } from '@chakra-ui/react';
 import valid from 'card-validator';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import CardHolderNameInput from './components/CardHolderNameInput';
 import FormHeader from './components/FormHeader';
 import CardNumberInput from './components/CardNumberInput';
 import ExpirationDateInput from './components/ExpirationDateInput';
 import CvvInput from './components/CvvInput';
 import { FormState, initialFormState } from './components/utils/FormState';
+import { getCardDetailsSubmit } from './store/utils';
 
 export const PaymentForm = () => {
   const [formState, setFormState] = useState<FormState>(initialFormState);
@@ -26,6 +27,7 @@ export const PaymentForm = () => {
         codeName: value?.card?.code ? value.card.code.name : '',
         codeSize: value?.card?.code ? value.card.code.size : 3,
         readyForSubmit: value.isValid,
+        value: e.target.value,
       },
       ...(isBlurEvent
         ? {}
@@ -53,6 +55,7 @@ export const PaymentForm = () => {
         ...prevState.expirationDate,
         isInvalid: isBlurEvent ? !value.isValid : !value.isPotentiallyValid,
         readyForSubmit: value.isValid,
+        value: e.target.value,
       },
     }));
   };
@@ -85,8 +88,34 @@ export const PaymentForm = () => {
     );
   };
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const submitState = getCardDetailsSubmit(formState);
+    try {
+      const response = await fetch('http://localhost:7777/api/payments/deposit/cardDetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitState),
+            });
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      window.close()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleSubmitWrapper = (event: React.FormEvent) => {
+    handleSubmit(event).catch((error) => {
+      console.log(error);
+    });
+  };
+
   return (
-    <form style={{ width: 350 }}>
+    <form onSubmit={handleSubmitWrapper} style={{ width: 350 }}>
       <VStack>
         <FormHeader />
         <CardHolderNameInput
@@ -103,7 +132,7 @@ export const PaymentForm = () => {
         />
         <CvvInput formState={formState} validateCvv={validateCvv} />
         <Button
-          // onClick={}
+          type="submit"
           p="4"
           mx="4"
           mt="6"
