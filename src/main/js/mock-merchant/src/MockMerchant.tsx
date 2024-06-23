@@ -4,72 +4,60 @@ import {
     FormLabel,
     Input,
     Button,
+    Text,
     FormErrorMessage,
     FormHelperText,
     Box,
     useColorModeValue,
   } from "@chakra-ui/react";
 
-const MoneyForm: React.FC = () => {
+interface MoneyFormProps {
+  token: string;
+}
+
+const MoneyForm: React.FC<MoneyFormProps> = ({token}) => {
     const [amount, setAmount] = useState<string>('');
     const [error, setError] = useState("")
-    // const [merchantId, setMerchantId] = useState<string>('');
-    // const [product, setProduct] = useState<string>('');
-    // const [currency, setCurrency] = useState<string>('');
-    // const [merchantTxRef, setMerchantTxRef] = useState<string>('');
-    // const [orderDescription, setOrderDescription] = useState<string>('');
-    // const [billingAddress, setBillingAddress] = useState<string>('');
-    // const [address, setAddress] = useState<string>('');
-    // const [transactionType, setTransactionType] = useState<string>('');
-    // const [city, setCity] = useState<string>('');
-    // const [state, setState] = useState<string>('');
-    // const [postCode, setPostCode] = useState<string>('');
-    // const [countryCode, setCountryCode] = useState<string>('');
-    // const [emailAddress, setEmailAddress] = useState<string>('');
-    // const [phoneNumber, setPhoneNumber] = useState<string>('');
-    // const [ipAddress, setIpAddress] = useState<string>('');
-    // const [locale, setLocale] = useState<string>('');
-    // const [dateOfBirth, setDateOfBirth] = useState<string>('');
-    // const [firstName, setFirstName] = useState<string>('');
-    // const [lastName, setLastName] = useState<string>('');
-    // const [callbackUrl, setCallbackUrl] = useState<string>('');
-    // const [redirectUrl, setRedirectUrl] = useState<string>('');
+    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const merchantTxRef = crypto.randomUUID()
+    
+    const bodyData = {
+      "amount": parseFloat(amount),
+      "product": "example_product",
+      "currency": "USD",
+      "merchantTxRef": merchantTxRef,
+      "orderDescription": "Example deposit order",
+      "billingAddress": "123 Main St",
+      "address": "456 Secondary St",
+      "transactionType": "DEPOSIT",
+      "city": "Example City",
+      "state": "Example State",
+      "postCode": "12345",
+      "countryCode": "US",
+      "emailAddress": "example@example.com",
+      "phoneNumber": "+1234567890",
+      "ipAddress": "192.168.1.1",
+      "locale": "en_US",
+      "dateOfBirth": "1990-01-01",
+      "firstName": "John",
+      "lastName": "Doe",
+      "callbackUrl": "http://localhost:9090/merchant/notification",
+      "redirectUrl": "http://localhost:9090/merchant/callback"
+  };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const merchantTxRef = crypto.randomUUID()
-
-        const bodyData = {
-            amount: parseFloat(amount),
-            "merchantId": "example_merchant",
-            "product": "example_product",
-            "currency": "USD",
-            "merchantTxRef": merchantTxRef,
-            "orderDescription": "Example deposit order",
-            "billingAddress": "123 Main St",
-            "address": "456 Secondary St",
-            "transactionType": "DEPOSIT",
-            "city": "Example City",
-            "state": "Example State",
-            "postCode": "12345",
-            "countryCode": "US",
-            "emailAddress": "example@example.com",
-            "phoneNumber": "+1234567890",
-            "ipAddress": "192.168.1.1",
-            "locale": "en_US",
-            "dateOfBirth": "1990-01-01",
-            "firstName": "John",
-            "lastName": "Doe",
-            "callbackUrl": "http://localhost:9090/merchant/notification",
-            "redirectUrl": "http://localhost:9090/merchant/callback"
-        };
+        setLoading(true);
 
         try {
             const response = await fetch('http://localhost:7777/api/payments/deposit/initiate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(bodyData),
             });
@@ -80,8 +68,9 @@ const MoneyForm: React.FC = () => {
             }
 
             const data = await response.json();
-            //window.open(data.url);
-            window.location.href = data.url
+
+            window.open(data.url);
+            setLoading(false);
 
             const pollPaymentStatus = async () => {
                 try {
@@ -89,9 +78,8 @@ const MoneyForm: React.FC = () => {
                     const paymentStatusData = await paymentStatusResponse.json();
     
                     if (paymentStatusData.currentState === 'DEPOSIT_SUCCESSFUL') {
-                        console.log('SUCCESS')
+                        setSuccess(true);
                     } else {
-                        console.log('POLL')
                         setTimeout(pollPaymentStatus, 3000);
                     }
                 } catch (error) {
@@ -105,6 +93,12 @@ const MoneyForm: React.FC = () => {
         }
     };
 
+    const handleNewDeposit = () => {
+      setAmount('');
+      setError('');
+      setSuccess(false);
+    };
+
     return (
         <Box
           maxW="md"
@@ -114,27 +108,48 @@ const MoneyForm: React.FC = () => {
           shadow="md"
           rounded="lg"
         >
-          <form onSubmit={handleSubmit}>
-            <FormControl isInvalid={!!error}>
-              <FormLabel htmlFor="amount">Amount:</FormLabel>
-              <Input
-                id="amount"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-              {error && <FormErrorMessage>{error}</FormErrorMessage>}
-              <FormHelperText>Please enter a valid amount.</FormHelperText>
-            </FormControl>
-            <Button
-              mt={4}
-              colorScheme="blue"
-              isLoading={false}
-              type="submit"
-            >
-              Submit
-            </Button>
-          </form>
+          <Box mb={4} textAlign={"left"}>
+            <Text fontSize="xl" fontWeight="bold">
+              Customer:
+            </Text>
+            <Text fontSize="md" mt={2}>
+              First Name: {bodyData.firstName}
+              <br />
+              Last Name: {bodyData.lastName}
+              <br />
+              Email Address: {bodyData.emailAddress}
+            </Text>
+          </Box>
+          {!success ? (
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={!!error}>
+                <FormLabel htmlFor="amount">Amount (USD):</FormLabel>
+                <Input
+                  id="amount"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                {error && <FormErrorMessage>{error}</FormErrorMessage>}
+                <FormHelperText>{loading ? 'Submitting...' : 'Please enter a valid amount.'}</FormHelperText>
+              </FormControl>
+              <Button
+                mt={4}
+                colorScheme="blue"
+                type="submit"
+                isLoading={loading} 
+                isActive={parseFloat(amount) > 0} 
+                isDisabled={loading || parseFloat(amount) <= 0}
+              >
+                Submit
+              </Button>
+            </form>) : (
+              <Box bg="green.500" color="white" p={4} borderRadius="md">
+                <Text fontSize="xl">Deposit successfully submitted!</Text>
+                <Text fontSize="xl">Amount: {amount} USD</Text>
+                <Button onClick={handleNewDeposit} colorScheme="teal" size="lg" mt={4}>Start Another Deposit</Button>
+              </Box>
+          )}
         </Box>
       );
 };

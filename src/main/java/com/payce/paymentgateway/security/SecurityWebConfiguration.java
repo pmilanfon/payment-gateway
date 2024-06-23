@@ -41,7 +41,7 @@ public class SecurityWebConfiguration implements WebSecurityCustomizer {
                                 .requestMatchers("/register", "/create-merchant")
                                 .hasAuthority(SUPER_ADMIN.name())
                                 .anyRequest()
-                                .authenticated()
+                                .permitAll()
                 )
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

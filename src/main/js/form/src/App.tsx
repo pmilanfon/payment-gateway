@@ -1,5 +1,7 @@
+import React from 'react';
 import './App.css';
 import PaymentForm from './PaymentForm';
+import Receipt from './components/Receipt';
 
 export interface AppState {
   mockMerchantVisible: boolean;
@@ -11,9 +13,13 @@ export interface AppState {
 }
 
 function App() {
+  const [showReceipt, setShowReceipt] = React.useState(false);
+  const handleShowReceipt = () => {
+    setShowReceipt(true);
+  };
   return (
     <>
-      <PaymentForm />
+    {showReceipt ? <Receipt /> : <PaymentForm handleShowReceipt={handleShowReceipt}/>}
     </>
   );
 }

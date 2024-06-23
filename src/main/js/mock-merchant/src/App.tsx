@@ -1,15 +1,27 @@
 // import { useState } from 'react'
-import React from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import MockMerchant from './MockMerchant'
 import { ChakraProvider } from '@chakra-ui/react'
+import { authenticate } from './utils/authenticator';
+import SpinnerComponent from './SpinnerComponent';
 
 function App() {
-  //const [count, setCount] = useState(0)
+  const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      setToken(await authenticate());
+      setLoading(false);
+    };
+
+    fetchToken();
+  }, []);
 
   return (
     <ChakraProvider>
-      <MockMerchant />
+     {loading ? <SpinnerComponent text='Loading deposit form...'/> : token && <MockMerchant token={token} />}
     </ChakraProvider>
   )
 }

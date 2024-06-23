@@ -9,7 +9,12 @@ import CvvInput from './components/CvvInput';
 import { FormState, initialFormState } from './components/utils/FormState';
 import { getCardDetailsSubmit } from './store/utils';
 
-export const PaymentForm = () => {
+interface PaymentFormProps {
+  handleShowReceipt: () => void;
+}
+
+
+export const PaymentForm = ({ handleShowReceipt }: PaymentFormProps ) => {
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
   const validateCardNumber = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -102,7 +107,7 @@ export const PaymentForm = () => {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      window.close()
+      handleShowReceipt();
     } catch (error) {
       console.log(error);
     }
