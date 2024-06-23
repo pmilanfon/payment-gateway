@@ -52,6 +52,8 @@ const MoneyForm: React.FC<MoneyFormProps> = ({token}) => {
 
         setLoading(true);
 
+        console.log('TOKEN', token);
+
         try {
             const response = await fetch('http://localhost:7777/api/payments/deposit/initiate', {
                 method: 'POST',

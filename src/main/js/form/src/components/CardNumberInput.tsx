@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { InputMask } from '@react-input/mask';
 import { FormState } from './utils/FormState';
+import paymentIcons from './utils/paymentIcons';
 
 interface CardNumberInputProps {
   formState: FormState;
@@ -17,13 +18,13 @@ interface CardNumberInputProps {
 }
 
 const imgSrcByType = {
-  visa: './src/assets/card-icons/visa.svg',
-  mastercard: './src/assets/card-icons/mastercard.svg',
-  'american-express': './src/assets/card-icons/amex.svg',
-  'diners-club': './src/assets/card-icons/diners.svg',
-  discover: './src/assets/card-icons/discover.svg',
-  jcb: './src/assets/card-icons/jcb.svg',
-  maestro: './src/assets/card-icons/maestro.svg',
+  visa: paymentIcons[0],
+  mastercard: paymentIcons[1],
+  'american-express': paymentIcons[2],
+  'diners-club': paymentIcons[3],
+  discover: paymentIcons[4],
+  jcb: paymentIcons[5],
+  maestro: paymentIcons[6],
 };
 
 const CardNumberInput: React.FC<CardNumberInputProps> = ({
