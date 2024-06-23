@@ -10,22 +10,12 @@ import {
 } from '@chakra-ui/react';
 import { InputMask } from '@react-input/mask';
 import { FormState } from './utils/FormState';
-import paymentIcons from './utils/paymentIcons';
+import { MethodIcon } from './utils/paymentIcons';
 
 interface CardNumberInputProps {
   formState: FormState;
   validateCardNumber: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
-const imgSrcByType = {
-  visa: paymentIcons[0],
-  mastercard: paymentIcons[1],
-  'american-express': paymentIcons[2],
-  'diners-club': paymentIcons[3],
-  discover: paymentIcons[4],
-  jcb: paymentIcons[5],
-  maestro: paymentIcons[6],
-};
 
 const CardNumberInput: React.FC<CardNumberInputProps> = ({
   formState,
@@ -61,7 +51,7 @@ const CardNumberInput: React.FC<CardNumberInputProps> = ({
           onBlur={validateCardNumber}
         />
         <InputRightElement>
-          <Image src={(imgSrcByType as never)[formState.cardNumber.cardType]} />
+          <Image src={MethodIcon[formState.cardNumber.cardType]} />
         </InputRightElement>
       </InputGroup>
       <FormErrorMessage>Card number is invalid</FormErrorMessage>

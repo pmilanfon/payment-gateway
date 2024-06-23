@@ -16,4 +16,15 @@ const paymentIcons = [
   maestroIcon,
 ];
 
+export const MethodIcon: Record<string, string> =  {
+    'visa': visaIcon,
+    'mastercard': mastercardIcon,
+    'american-express': amexIcon,
+    'diners-club': dinersIcon,
+    'discover': discoverIcon,
+    'jcb': jcbIcon,
+    'maestro': maestroIcon,
+  
+}
+
 export default paymentIcons;
