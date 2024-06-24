@@ -1,27 +1,24 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './App.css';
-import PaymentForm from './PaymentForm';
+import CardForm from './CardForm';
 import Receipt from './components/Receipt';
-
-export interface AppState {
-  mockMerchantVisible: boolean;
-  receiptVisible: boolean;
-  errorVisible: boolean;
-  paymentFormVisible: boolean;
-  amount: number;
-  amountAfterFee: number;
-}
+import { AppState } from './store/types';
+import Error from './components/Error';
 
 function App() {
-  const [showReceipt, setShowReceipt] = React.useState(false);
-  const handleShowReceipt = () => {
-    setShowReceipt(true);
-  };
-  return (
-    <>
-    {showReceipt ? <Receipt /> : <PaymentForm handleShowReceipt={handleShowReceipt}/>}
-    </>
-  );
+  const reference = useRef<string>(window.location.pathname.split('/').pop() ?? '')
+  const [appState, setAppState] = React.useState<AppState>({name: 'FORM', value: ''});
+
+  switch (appState.name) {
+    case 'ERROR':
+      return <Error message={appState.value} setAppState={setAppState}/>;
+    case  'FORM':
+      return <CardForm setAppState={setAppState} reference={reference}/>;
+    case 'RECEIPT':
+      return <Receipt />
+    default:
+      return <Error message={appState.value} setAppState={setAppState} />;
+  }
 }
 
 export default App;

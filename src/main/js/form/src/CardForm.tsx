@@ -7,15 +7,18 @@ import CardNumberInput from './components/CardNumberInput';
 import ExpirationDateInput from './components/ExpirationDateInput';
 import CvvInput from './components/CvvInput';
 import { FormState, initialFormState } from './components/utils/FormState';
-import { getCardDetailsSubmit } from './store/utils';
+import { AppState } from './store/types';
+import { submitCardDetails } from './store/requests';
+import { useTranslation } from 'react-i18next';
 
-interface PaymentFormProps {
-  handleShowReceipt: () => void;
+interface CardFormProps {
+  setAppState: (appState: AppState) => void;
+  reference: React.MutableRefObject<string>;
 }
 
-
-export const PaymentForm = ({ handleShowReceipt }: PaymentFormProps ) => {
+export const CardForm = ({ setAppState, reference }: CardFormProps ) => {
   const [formState, setFormState] = useState<FormState>(initialFormState);
+  const { t } = useTranslation();
 
   const validateCardNumber = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault();
@@ -95,27 +98,25 @@ export const PaymentForm = ({ handleShowReceipt }: PaymentFormProps ) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const submitState = getCardDetailsSubmit(formState);
+
+    setAppState({name: 'LOADING', value: t("common.spinner.submitting")});
+
     try {
-      const response = await fetch('http://localhost:7777/api/payments/deposit/cardDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(submitState),
-            });
-      if (!response.ok) {
+      const response = await submitCardDetails(formState, reference)
+
+      if (!response.ok) {     
         throw new Error(response.statusText);
       }
-      handleShowReceipt();
+
+      setAppState({name: 'RECEIPT'});
     } catch (error) {
-      console.log(error);
+      setAppState({name: 'ERROR', value: t("common.error.message")});
     }
   }
 
   const handleSubmitWrapper = (event: React.FormEvent) => {
     handleSubmit(event).catch((error) => {
-      console.log(error);
+      setAppState({name: 'ERROR', value: JSON.stringify(error)});
     });
   };
 
@@ -146,11 +147,11 @@ export const PaymentForm = ({ handleShowReceipt }: PaymentFormProps ) => {
           variant="solid"
           isDisabled={!isFormReadyForSubmit()}
         >
-          Deposit
+          {t("elements.cardForm.button.submit")}
         </Button>
       </VStack>
     </form>
   );
 };
 
-export default PaymentForm;
+export default CardForm;

@@ -1,7 +1,39 @@
 {
-    "cardHolderNameInput": {
-        "label": "Cardholder name",
-        "placeholder": "Enter cardholder name",
-        "errorMessage": "Cardholder name is required"
+    "common": {
+        "error": {
+            "message": "Something went wrong. Please try again later."
+        },
+        "spinner": {
+            "submitting": "Submitting card details...",
+            "loading": "Loading..."
+        }
+    },
+    "elements": {
+        "cardForm": {
+           "button": {
+               "submit": "Submit"
+           } 
+        },
+        "cardHolderNameInput": {
+            "label": "Cardholder name",
+            "placeholder": "Enter cardholder name",
+            "errorMessage": "Cardholder name is required"
+        },
+        "receipt": {
+            "button": {
+                "close": "Close this page"
+            },
+            "text": {
+                "submitted": "Card Submitted",
+                "countdown": "Page will close in {{countdown}} seconds"
+            }
+        },
+        "error": {
+            "title": "Oops...",
+            "button": {
+                "retry": "Retry",
+                "close": "Close"
+            }
+        }
     }
 }

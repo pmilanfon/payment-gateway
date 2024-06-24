@@ -11,16 +11,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/api/payments/back-office")
 @RequiredArgsConstructor
 public class BackOfficeController {
     private final DepositService service;
+
+    @GetMapping("/{txRef}")
+    public String getBackofficeForm(@PathVariable String txRef) {
+        return "forward:/backoffice/index.html";
+    }
 
     @GetMapping("/transactions")
     public ResponseEntity<Page<DepositDto>> getTransaction(BORequest request,

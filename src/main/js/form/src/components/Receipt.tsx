@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box, Text, Button, useColorModeValue } from "@chakra-ui/react";
 import { SunIcon } from '@chakra-ui/icons'
-
+import { useTranslation } from "react-i18next";
 
 const Receipt = () => {
+  const { t } = useTranslation();
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
@@ -19,13 +20,18 @@ const Receipt = () => {
   }, [countdown]);
 
   return (
-  <Box bg="white" p={8} rounded="lg" fontSize="2xl">
-    <SunIcon color="green.500" boxSize={12} />
-    <Text color="green.500" fontWeight="bold" mb={4}>
-        Card Submitted
+  <Box 
+    p={8} 
+    fontSize="2xl" 
+    bg={useColorModeValue("white", "gray.800")}
+    shadow="md"
+    rounded="lg">
+    <SunIcon color="green.500" boxSize={16} mb={8}/>
+    <Text fontSize="3xl" color="green.500" fontWeight="bold" mb={4}>
+        {t('elements.receipt.text.submitted')}
     </Text>
-    <Text color="green.500" fontSize="lg" mb={4}>
-        Form will close in {countdown} seconds
+    <Text fontSize="lg" color="green.500" mb={8}>
+      {t('elements.receipt.text.countdown', { countdown })}
     </Text>
     <Button
         colorScheme="white"
@@ -33,7 +39,7 @@ const Receipt = () => {
         mt={4}
         onClick={() => window.close()}
     >
-        Close this page
+        {t('elements.receipt.button.close')}
     </Button>
 </Box>
   );

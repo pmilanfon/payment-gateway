@@ -47,17 +47,17 @@ const CardHolderNameInput: React.FC<CardHolderNameInputProps> = ({
         fontSize="sm"
         color={cardHolderName?.readyForSubmit ? 'default' : 'gray.500'}
       >
-        {t('cardHolderNameInput.label')}
+        {t('elements.cardHolderNameInput.label')}
       </FormLabel>
 
       <Input
         type="text"
-        placeholder={t('cardHolderNameInput.placeholder')}
+        placeholder={t('elements.cardHolderNameInput.placeholder')}
         variant="flushed"
         onChange={handleCardholderNameChange}
         onBlur={handleCardholderNameChange}
       />
-      <FormErrorMessage>{t('cardHolderNameInput.errorMessage')}</FormErrorMessage>
+      <FormErrorMessage>{t('elements.cardHolderNameInput.errorMessage')}</FormErrorMessage>
     </FormControl>
   );
 };

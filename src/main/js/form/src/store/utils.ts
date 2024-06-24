@@ -1,7 +1,7 @@
 import { FormState } from "../components/utils/FormState";
 import { CardDetailsSubmit } from "./types";
 
-export const getCardDetailsSubmit = (formState: FormState): CardDetailsSubmit => {
+export const getCardDetailsSubmit = (formState: FormState, reference: string): CardDetailsSubmit => {
     const expirationDate = formState.expirationDate.value;
     const [month, year] = expirationDate.split('/').map(Number);
     return {
@@ -10,6 +10,6 @@ export const getCardDetailsSubmit = (formState: FormState): CardDetailsSubmit =>
         expirationMonth: month,
         expirationYear: year,
         cvv: parseInt(formState.cvv.value ?? '0'),
-        reference: window.location.pathname.split('/').pop() ?? '',
+        reference: reference,
     };
 }
